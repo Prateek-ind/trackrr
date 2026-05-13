@@ -25,7 +25,7 @@ const login = async (req, res) => {
         message: "Invalid credentials",
       });
     }
-    const token = generateToken();
+    const token = generateToken(user._id);
 
     res.cookie("token", token, {
       httpOnly: true,
@@ -34,7 +34,7 @@ const login = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.status(200).jon({
+    res.status(200).json({
       message: {
         id: user._id,
         username: user.username,
@@ -58,8 +58,8 @@ const register = async (req, res) => {
     }
     const existingUser = await User.findOne({ email });
 
-    if (user) {
-      return res.status(401).json({
+    if (existingUser) {
+      return res.status(409).json({
         message: "Email in use, Try another email.",
       });
     }
@@ -75,10 +75,10 @@ const register = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.status(201).jon({
+    res.status(201).json({
       message: "User created successfully",
       user: {
-        id: user_id,
+        id: user._id,
         username: user.username,
         email: user.email,
       },

@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const generaeToken = async (id) => {
+const generateToken = async (id) => {
   if (!id) {
     console.log("Id not found");
   }
@@ -9,3 +9,5 @@ const generaeToken = async (id) => {
 
   return token;
 };
+
+module.exports = generateToken
