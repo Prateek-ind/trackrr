@@ -59,7 +59,7 @@ const getJobById = async (req, res) => {
 
 const updateJob = async (req, res) => {
   const data = req.body;
-  const {id} = req.params
+  const { id } = req.params;
 
   try {
     const existingJob = await Job.findOne({
@@ -90,11 +90,11 @@ const updateJob = async (req, res) => {
 };
 
 const deleteJob = async (req, res) => {
-  const data = req.body;
+  const { id } = req.params;
 
   try {
     const existingJob = await Job.findOne({
-      _id: data._id,
+      id,
       user: req.user._id,
     });
 
@@ -104,7 +104,7 @@ const deleteJob = async (req, res) => {
       });
     }
 
-    const deletedJob = await Job.findByIdAndDelete(data._id);
+    const deletedJob = await Job.findByIdAndDelete(id);
 
     res.status(200).json({
       message: "Job deleted successfully",

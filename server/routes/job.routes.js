@@ -5,7 +5,7 @@ const { getJobs, getJobById, createJob, updateJob, deleteJob } = require("../con
 router.get("/", getJobs)
 router.get("/:id", getJobById)
 router.post("/", createJob)
-router.post("/edit/:id", updateJob)
-router.post("/delete", deleteJob)
+router.post("/:id", updateJob)
+router.post("/:id", deleteJob)
 
 module.exports = router
