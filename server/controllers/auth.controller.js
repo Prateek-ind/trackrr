@@ -35,7 +35,8 @@ const login = async (req, res) => {
     });
 
     res.status(200).json({
-      message: {
+      message: "Login successful",
+      user: {
         id: user._id,
         username: user.username,
         email: email,
@@ -99,8 +100,8 @@ const logout = async (req, res) => {
     });
 
     res.status(200).json({
-        message: "logout successful"
-    })
+      message: "logout successful",
+    });
   } catch (error) {
     res.status(500).json({
       message: error.message,
@@ -108,5 +109,4 @@ const logout = async (req, res) => {
   }
 };
 
-
-module.exports = {login , register, logout}
+module.exports = { login, register, logout };

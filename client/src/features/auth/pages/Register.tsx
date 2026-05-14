@@ -1,23 +1,39 @@
 import { useState, type ChangeEvent } from "react";
 import Input from "../../shared/components/Input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { registerUser } from "../api/auth";
 
 const Register = () => {
   const [registerData, seRegisterData] = useState({
+    username: "",
     email: "",
     password: "",
   });
+  const navigate = useNavigate()
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     seRegisterData((prev) => ({ ...prev, [name]: value }));
   };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      await registerUser(registerData);
+      navigate("/");
+    } catch (error) {
+      if (error instanceof Error)
+        throw new Error(error.message, { cause: error });
+      throw new Error("Something went wrong while login!!!", { cause: error });
+    }
+  };
+
   return (
     <section className="w-full h-screen flex items-center justify-center bg-white">
       <div className="max-w-lg p-6 border border-zinc-400 rounded-md">
         <h2 className="text-xl mb-6">Register</h2>
-        <form action="" className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <Input
             placeholder="Username"
             name="username"

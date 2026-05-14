@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema(
 userSchema.pre("save", async function () {
   if (!this.isModified("password")) return;
   try {
-    const hashedPassword = bcrypt.hash(this.password, 10);
+    const hashedPassword = await bcrypt.hash(this.password, 10);
     this.password = hashedPassword;
   } catch (error) {
     console.log("unable to hash password");
