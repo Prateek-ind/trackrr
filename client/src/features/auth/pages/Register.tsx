@@ -1,5 +1,5 @@
 import { useState, type ChangeEvent } from "react";
-import Input from "../../shared/Input";
+import Input from "../../shared/components/Input";
 import { Link } from "react-router-dom";
 
 const Register = () => {
@@ -36,7 +36,14 @@ const Register = () => {
             Register
           </button>
         </form>
-        <p className="mt-6 text-slate-500">If you have an account <Link to={"/login"} className="underline"> click here</Link> to login.</p>
+        <p className="mt-6 text-slate-500">
+          If you have an account{" "}
+          <Link to={"/login"} className="underline">
+            {" "}
+            click here
+          </Link>{" "}
+          to login.
+        </p>
       </div>
     </section>
   );
