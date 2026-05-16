@@ -1,7 +1,9 @@
 import { useState, type ChangeEvent } from "react";
-import Input from "../../shared/components/Input";
+
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../api/auth";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 const Register = () => {
   const [registerData, seRegisterData] = useState({
@@ -45,12 +47,12 @@ const Register = () => {
             name="password"
             onChange={handleChange}
           />
-          <button
+          <Button
             type="submit"
             className="bg-indigo-500 px-2 py-1 rounded-md text-white hover:bg-indigo-700"
           >
             Register
-          </button>
+          </Button>
         </form>
         <p className="mt-6 text-slate-500">
           If you have an account{" "}

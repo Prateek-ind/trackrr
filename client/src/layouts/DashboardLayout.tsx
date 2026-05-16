@@ -1,12 +1,15 @@
 import { Outlet } from "react-router-dom";
-import DashboardNavbar from "../features/shared/components/DashboardNavbar";
-
+import DashboardTopbar from "../features/Dashboard/components/DashboardTopbar";
+import Sidebar from "../features/Dashboard/components/Sidebar";
 
 const DashboardLayout = () => {
   return (
-    <main className="w-full max-h-screen bg-slate-50">
-      <DashboardNavbar/>
-      <Outlet />
+    <main className="flex w-full max-h-screen bg-slate-50">
+      <Sidebar />
+      <div className="flex-1">
+        <DashboardTopbar />
+        <Outlet />
+      </div>
     </main>
   );
 };

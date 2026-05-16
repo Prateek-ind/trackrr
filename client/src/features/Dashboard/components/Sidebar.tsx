@@ -29,7 +29,10 @@ const sidebarOptions = [
 
 const Sidebar = () => {
   return (
-    <aside className="h-screen w-64 border-r border-slate-200 bg-white">
+    <aside className="h-screen w-64 border-r dark:border-dark-border dark:bg-dark-900">
+      <div className="border-b border-slate-200 p-6">
+        <h2 className="text-2xl font-bold text-indigo-600">Trackrr</h2>
+      </div>
 
       <nav className="flex flex-col p-4">
         {sidebarOptions.map((option) => (

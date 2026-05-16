@@ -1,7 +1,7 @@
 import { useState, type ChangeEvent } from "react";
-import Input from "../../shared/components/Input";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
+import { Input } from "@/components/ui/input";
 
 const Login = () => {
   const [loginData, setLoginData] = useState({
@@ -30,7 +30,7 @@ const Login = () => {
   };
 
   return (
-    <section className="w-full h-screen flex items-center justify-center bg-white">
+    <section className="w-full h-screen flex items-center justify-center bg-white dark:bg-indigo-950">
       <div className="max-w-lg p-6 border border-zinc-400 rounded-md">
         <h2 className="text-xl mb-6">Login</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
