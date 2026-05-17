@@ -1,25 +1,38 @@
-import React from "react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { Link } from "react-router-dom";
+import Logo from "./Logo";
 
 const Navbar = () => {
   return (
-    <nav className="w-full border-b border-slate-200 bg-white">
+    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-dark-border/40 bg-dark-900/50 backdrop-blur-md">
       <div className="mx-auto h-16 max-w-6xl flex items-center justify-between px-6">
-        <Link to={"/"}>
-        <h2 className="text-2xl text-indigo-700 font-bold">Trackrr</h2>
+
+        {/* Logo */}
+        <Link to="/" className="flex items-center gap-2">
+          <Logo />
+          <h2 className="text-2xl font-bold text-brand-purple">Trackrr</h2>
         </Link>
+
+        {/* Actions */}
         <div className="flex items-center gap-4">
-          <Link to={"/login"}>
-            <button className="px-4 py-2 text-sm font-medium border border-slate-300 rounded-md text-slate-600 hover:text-slate-900 hover:border-slate-500 transition cursor-pointer">
-              Login
-            </button>
+
+          <Link
+            to="/login"
+            className="rounded-lg border border-dark-border/60 bg-dark-800/40 px-4 py-2 text-sm font-medium text-text-primary transition-all hover:border-brand-purple/40 hover:bg-dark-700/40"
+          >
+            Login
           </Link>
-         <Link to={"/register"}>
-          <button className="px-4 py-2 text-sm font-medium bg-indigo-700 border border-indigo-300 rounded-md text-white hover:border-indigo-500 transition cursor-pointer">
+
+          <Link
+            to="/register"
+            className="rounded-lg bg-brand-purple px-4 py-2 text-sm font-medium text-white transition-all hover:bg-brand-purple-hover"
+          >
             Get Started
-          </button>
-         </Link>
+          </Link>
+
+          <ThemeToggle />
         </div>
+
       </div>
     </nav>
   );

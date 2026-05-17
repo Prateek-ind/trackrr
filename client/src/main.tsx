@@ -5,6 +5,9 @@ import App from "./App.tsx";
 import "@fontsource-variable/inter/wght.css";
 import { AuthProvider } from "./features/auth/context/AuthContext.tsx";
 
+const savedTheme = localStorage.getItem("trackrr-theme") || "dark"
+document.documentElement.setAttribute("data-theme", savedTheme)
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <AuthProvider>

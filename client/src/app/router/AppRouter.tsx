@@ -16,12 +16,10 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
-    children: [
-      { index: true, element: <Homepage /> },
-      { path: "/login", element: <Login /> },
-      { path: "/register", element: <Register /> },
-    ],
+    children: [{ index: true, element: <Homepage /> }],
   },
+  { path: "/login", element: <Login /> },
+  { path: "/register", element: <Register /> },
   {
     path: "/dashboard",
     element: (
@@ -36,24 +34,24 @@ export const router = createBrowserRouter([
       },
       {
         path: "applications",
-        element: <Applications/>
+        element: <Applications />,
       },
       {
         path: "add-job",
-        element: <AddJob/>
+        element: <AddJob />,
       },
       {
         path: "analytics",
-        element: <Analytics/>
+        element: <Analytics />,
       },
       {
         path: "Profile",
-        element: <Profile/>
+        element: <Profile />,
       },
       {
         path: "settings",
-        element: <Settings/>
-      }
+        element: <Settings />,
+      },
     ],
   },
 ]);

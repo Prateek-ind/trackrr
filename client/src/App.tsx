@@ -4,7 +4,7 @@ import { ThemeProvider } from "@/components/Theme-Provider";
 
 const App = () => {
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+    <ThemeProvider defaultTheme="dark" storageKey="trackrr-theme">
       <RouterProvider router={router} />
     </ThemeProvider>
   );

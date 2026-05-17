@@ -42,6 +42,7 @@ const DashboardTopbar = () => {
             hover:bg-brand-purple-hover
             hover:text-white
             rounded-md"
+            onClick={handleLogout}
         >
           Logout
         </Button>
