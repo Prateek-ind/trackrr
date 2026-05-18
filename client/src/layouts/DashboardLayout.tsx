@@ -4,7 +4,7 @@ import Sidebar from "../features/Dashboard/components/Sidebar";
 
 const DashboardLayout = () => {
   return (
-    <main className="flex w-full max-h-screen bg-slate-50">
+    <main className="flex w-full min-h-screen bg-slate-50">
       <Sidebar />
       <div className="flex-1">
         <DashboardTopbar />

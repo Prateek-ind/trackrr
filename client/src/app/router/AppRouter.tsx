@@ -7,10 +7,11 @@ import Homepage from "../../features/shared/pages/Homepage";
 import ProtectedRoute from "../../features/shared/components/ProtectedRoute";
 import DashboardLayout from "../../layouts/DashboardLayout";
 import Applications from "../../features/Applications/pages/Applications";
-import AddJob from "../../features/Add Job/Pages/AddJob";
+
 import Analytics from "../../features/Analytics/Pages/Analytics";
 import Profile from "../../features/Profile/pages/Profile";
 import Settings from "../../features/Settings/pages/Settings";
+import AddJob from "@/features/Add Job/Pages/AddJob";
 
 export const router = createBrowserRouter([
   {
