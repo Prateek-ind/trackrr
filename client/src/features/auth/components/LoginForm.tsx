@@ -10,6 +10,8 @@ const LoginForm = () => {
     email: "",
     password: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -22,17 +24,25 @@ const LoginForm = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      setIsLoading(true);
+      setError(null);
       await login(loginData);
       navigate("/dashboard");
-    } catch (error) {
+    } catch (error: any) {
       if (error instanceof Error)
-        throw new Error(error.message, { cause: error });
-      throw new Error("Something went wrong while login!!!", { cause: error });
+        setIsLoading(false)
+        setError(error.message || "Login failed, try again.");
+      throw new Error(error.message, { cause: error });
     }
   };
   return (
     <form onSubmit={handleSubmit} className="my-4">
-      <Input placeholder="Email" name="email" onChange={handleChange} className="mb-4 py-6"/>
+      <Input
+        placeholder="Email"
+        name="email"
+        onChange={handleChange}
+        className="mb-4 py-6"
+      />
       <Input
         type="password"
         placeholder="Password"
@@ -41,16 +51,24 @@ const LoginForm = () => {
         className="mb-4 py-6"
       />
       <div className="flex items-center justify-between mb-4">
-        <label className="text-xs text-text-secondary flex items-center gap-1"><input type="checkbox"/> Remember me</label>
-      <Link className="text-sm font-bold text-brand-purple" to={"/"}>Forgot Password?</Link>
+        <label className="text-xs text-text-secondary flex items-center gap-1">
+          <input type="checkbox" /> Remember me
+        </label>
+        <Link className="text-sm font-bold text-brand-purple" to={"/"}>
+          Forgot Password?
+        </Link>
       </div>
+      {error && <p className="text-xs text-status-rejected">{error}</p>}
       <Button
         type="submit"
-        className="w-full bg-indigo-500 px-6 py-6 rounded-md text-white hover:bg-brand-purple-hover transition cursor-pointer"
+        disabled={isLoading}
+        className="w-full py-6 bg-brand-purple hover:bg-brand-purple-hover text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        Sign in <ArrowRight/>
+        <span className="flex items-center justify-center gap-2">
+          {isLoading ? "Signing in..." : "Sign in"}
+          {!isLoading && <ArrowRight size={16} />}
+        </span>
       </Button>
-      
     </form>
   );
 };
