@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose")
 
 const jobSchema = new mongoose.Schema(
   {
@@ -12,14 +12,24 @@ const jobSchema = new mongoose.Schema(
       trim: true,
       required: true,
     },
+    location: {
+      type: String,
+      trim: true,
+    },
     status: {
       type: String,
       enum: ["applied", "interview", "assessment", "offer", "rejected"],
       default: "applied",
       required: true,
     },
-    salary: {
-      type: Number,
+    priority: {
+      type: String,
+      enum: ["low", "medium", "high"],
+      default: "medium",
+    },
+    source: {
+      type: String,
+      trim: true,
     },
     link: {
       type: String,
@@ -29,6 +39,12 @@ const jobSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    attachments: [
+      {
+        type: String, // stores filename or URL
+        trim: true,
+      }
+    ],
     appliedAt: {
       type: Date,
       default: Date.now,
@@ -40,8 +56,8 @@ const jobSchema = new mongoose.Schema(
     },
   },
   { timestamps: true },
-);
+)
 
-const jobModel = mongoose.model("jobModel", jobSchema)
+const Job = mongoose.model("Job", jobSchema)
 
-module.exports = jobModel
+module.exports = Job

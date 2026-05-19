@@ -1,14 +1,19 @@
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
-export function TogglePriority() {
+interface TogglePriorityProps {
+  value: string;
+  onChange: (val: string) => void;
+}
+
+export function TogglePriority({ value, onChange }: TogglePriorityProps) {
   return (
     <ToggleGroup
-     
       type="single"
       size="lg"
-      defaultValue="low"
       variant="outline"
       spacing={2}
+      value={value}
+      onValueChange={(val) => val && onChange(val)}
     >
       <ToggleGroupItem
         value="low"

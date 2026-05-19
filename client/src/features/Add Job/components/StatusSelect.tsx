@@ -7,6 +7,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import type { JobStatus } from "@/types/job.types";
+
+interface StatusSelectProps {
+  value: JobStatus;
+  onChange: (val: JobStatus) => void;
+}
+
 const StatusSelect = () => {
   return (
     <Select>
@@ -16,8 +23,10 @@ const StatusSelect = () => {
       <SelectContent>
         <SelectGroup>
           <SelectItem value="applied">Applied</SelectItem>
-          <SelectItem value="interviewed">Interviewed</SelectItem>
-          <SelectItem value="selected">Selected</SelectItem>
+          <SelectItem value="interview">Interview</SelectItem>
+          <SelectItem value="assessment">Assessment</SelectItem>
+          <SelectItem value="offer">Offer</SelectItem>
+          <SelectItem value="rejected">Rejected</SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>
