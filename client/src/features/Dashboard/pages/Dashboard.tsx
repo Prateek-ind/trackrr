@@ -4,34 +4,40 @@ import StatsCard from "../components/StatsCard";
 import { LuCirclePlus } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import LiveActivity from "../components/LiveActivity";
+import WeeklyBarChart from "../components/WeeklyBarChart";
+import FunnelPieChart from "../components/FunnelPieChart";
 
 const Dashboard = () => {
   return (
     <main className="flex-1 p-8 bg-white dark:bg-dark-900 min-h-screen">
-
-     
       <div className="mb-8 flex items-center justify-between">
-       <div>
-         <h1 className="text-3xl font-bold text-text-primary">
-          Welcome back, Prateek 👋
-        </h1>
-        <p className="mt-1 text-sm text-text-muted">
-          Here's what's happening with your job search today.
-        </p>
-       </div>
+        <div>
+          <h1 className="text-3xl font-bold text-text-primary">
+            Welcome back, Prateek 👋
+          </h1>
+          <p className="mt-1 text-sm text-text-muted">
+            Here's what's happening with your job search today.
+          </p>
+        </div>
         <Link to={"add-job"}>
-        <Button className="bg-brand-purple text-white dark:text-text-primary"><LuCirclePlus /> Add New Job</Button>
+          <Button className="bg-brand-purple text-white dark:text-text-primary">
+            <LuCirclePlus /> Add New Job
+          </Button>
         </Link>
       </div>
 
       <StatsCard />
 
-    <div className="grid grid-cols-3 gap-4">
-      <RecentApplications/>
-      <LiveActivity/>
-    </div>
+      <div className="grid grid-cols-3 gap-4">
+        <RecentApplications />
+        <LiveActivity />
+      </div>
+      <div className="grid grid-cols-2 gap-4 mt-6">
+        <WeeklyBarChart />
+        <FunnelPieChart />
+      </div>
     </main>
-  );  
+  );
 };
 
 export default Dashboard;

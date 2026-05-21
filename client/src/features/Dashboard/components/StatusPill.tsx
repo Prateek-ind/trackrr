@@ -3,7 +3,7 @@ import React from "react";
 const StatusPill = ({ status }: { status: string }) => {
   return (
     <div
-      className={`rounded-full px-3 py-1 text-sm font-medium w-fit h-8 mx-auto ${
+      className={`rounded-full px-6 py-1 text-sm font-medium w-fit h-8  ${
         status === "applied"
           ? "bg-status-applied/15 text-status-applied"
           : status === "interview"

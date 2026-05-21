@@ -32,7 +32,28 @@ export const getJobs = async ()=>{
 
   if (!response.ok) {
     const error = await response.json()
-    throw new Error(error.message || "Failed to create job")
+    throw new Error(error.message || "Failed to get all jobs")
+  }
+  const data = await response.json()
+  console.log(data)
+  return data
+  } catch (error) {
+    if(error instanceof Error){
+      throw new Error(error.message, {cause: error})
+    }
+  }
+}
+
+export const getJobById = async (id: string)=>{
+  try {
+    const response = await fetch(`${BASE_URL}/job/${id}`, {
+    method: "GET",
+    credentials: "include"
+  })
+
+  if (!response.ok) {
+    const error = await response.json()
+    throw new Error(error.message || "Failed to get this job")
   }
   const data = await response.json()
   console.log(data)

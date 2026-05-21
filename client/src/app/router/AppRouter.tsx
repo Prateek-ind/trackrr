@@ -12,6 +12,7 @@ import Analytics from "../../features/Analytics/Pages/Analytics";
 import Profile from "../../features/Profile/pages/Profile";
 import Settings from "../../features/Settings/pages/Settings";
 import AddJob from "@/features/Add Job/Pages/AddJob";
+import JobDetail from "@/features/Applications/pages/JobDetail";
 
 export const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ export const router = createBrowserRouter([
       {
         path: "applications",
         element: <Applications />,
+      },
+      {
+        path: "applications/:id",
+        element: <JobDetail />,
       },
       {
         path: "add-job",
