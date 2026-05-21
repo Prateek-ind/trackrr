@@ -31,17 +31,13 @@ const jobSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    link: {
-      type: String,
-      trim: true,
-    },
     notes: {
       type: String,
       trim: true,
     },
     attachments: [
       {
-        type: String, // stores filename or URL
+        type: String, 
         trim: true,
       }
     ],

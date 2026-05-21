@@ -21,3 +21,25 @@ export const createJob = async (formData: JobFormData) => {
 
   return response.json()
 }
+
+
+export const getJobs = async ()=>{
+  try {
+    const response = await fetch(`${BASE_URL}/job/`, {
+    method: "GET",
+    credentials: "include"
+  })
+
+  if (!response.ok) {
+    const error = await response.json()
+    throw new Error(error.message || "Failed to create job")
+  }
+  const data = await response.json()
+  console.log(data)
+  return data
+  } catch (error) {
+    if(error instanceof Error){
+      throw new Error(error.message, {cause: error})
+    }
+  }
+}

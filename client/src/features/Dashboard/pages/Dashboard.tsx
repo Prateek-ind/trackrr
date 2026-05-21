@@ -3,10 +3,11 @@ import RecentApplications from "../components/RecentApplications";
 import StatsCard from "../components/StatsCard";
 import { LuCirclePlus } from "react-icons/lu";
 import { Link } from "react-router-dom";
+import LiveActivity from "../components/LiveActivity";
 
 const Dashboard = () => {
   return (
-    <main className="flex-1 p-8 bg-dark-900 min-h-screen">
+    <main className="flex-1 p-8 bg-white dark:bg-dark-900 min-h-screen">
 
      
       <div className="mb-8 flex items-center justify-between">
@@ -27,6 +28,7 @@ const Dashboard = () => {
 
     <div className="grid grid-cols-3 gap-4">
       <RecentApplications/>
+      <LiveActivity/>
     </div>
     </main>
   );  

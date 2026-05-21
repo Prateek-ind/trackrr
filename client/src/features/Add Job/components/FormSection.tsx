@@ -1,4 +1,4 @@
-import { FileText, Building2, MapPin, Paperclip, Link2 } from "lucide-react";
+import { FileText, Building2, MapPin, Link2 } from "lucide-react";
 import StatusSelect from "./StatusSelect";
 import { DatePicker } from "./DatePicker";
 import { TogglePriority } from "./TogglePriority";

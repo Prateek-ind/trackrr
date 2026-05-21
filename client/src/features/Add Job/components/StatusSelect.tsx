@@ -14,9 +14,9 @@ interface StatusSelectProps {
   onChange: (val: JobStatus) => void;
 }
 
-const StatusSelect = () => {
+const StatusSelect = ({value, onChange}: StatusSelectProps) => {
   return (
-    <Select>
+    <Select value={value} onValueChange={onChange}>
       <SelectTrigger className="w-full py-6">
         <SelectValue placeholder="Job Status" />
       </SelectTrigger>
