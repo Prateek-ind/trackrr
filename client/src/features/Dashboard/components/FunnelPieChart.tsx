@@ -13,11 +13,11 @@ const funnelData = [
   { name: "Offers", value: 10 },
 ];
 
-const COLORS = ["#6c63ff", "#4fc3f7", "#1a1a24"];
+const COLORS = ["#6c63ff", "#4fc3f7", "#3A3A52"];
 
 const FunnelPieChart = () => (
-  <div className="w-full border rounded-md shadow-md p-4">
-    <div className="mb-6 border-b border-dark-border py-4">
+  <div className="w-full border rounded-md shadow-md pb-4 bg-white dark:bg-dark-800">
+    <div className="mb-6 border-b border-dark-border p-4 bg-dark-700">
       <h2 className="text-2xl font-bold text-text-primary">
         Funnel Distribution
       </h2>
@@ -26,7 +26,7 @@ const FunnelPieChart = () => (
       </p>
     </div>
     <ResponsiveContainer width="100%" height={250}>
-      <PieChart>
+      <PieChart className="p-2">
         <Pie
           data={funnelData}
           cx="50%"
@@ -41,7 +41,7 @@ const FunnelPieChart = () => (
           ))}
         </Pie>
         <Tooltip formatter={(value) => `${value}%`} />
-        <Legend className="pt-4" />
+        <Legend className="pt-4 text-sm" />
       </PieChart>
     </ResponsiveContainer>
   </div>

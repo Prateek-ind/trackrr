@@ -13,6 +13,7 @@ import Profile from "../../features/Profile/pages/Profile";
 import Settings from "../../features/Settings/pages/Settings";
 import AddJob from "@/features/Add Job/Pages/AddJob";
 import JobDetail from "@/features/Applications/pages/JobDetail";
+import EditJobDetail from "@/features/Applications/pages/EditJobDetail";
 
 export const router = createBrowserRouter([
   {
@@ -39,12 +40,16 @@ export const router = createBrowserRouter([
         element: <Applications />,
       },
       {
+        path: "add-job",
+        element: <AddJob />,
+      },
+      {
         path: "applications/:id",
         element: <JobDetail />,
       },
       {
-        path: "add-job",
-        element: <AddJob />,
+        path: "applications/:id/edit",
+        element: <EditJobDetail/> ,
       },
       {
         path: "analytics",

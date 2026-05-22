@@ -18,6 +18,10 @@
   --color-status-offer: #2e7d32;
   --color-status-rejected: #c62828;
 
+  --color-priority-low: #69db7c;
+  --color-priority-medium: #f0b429;
+  --color-priority-high: #ff6b6b;
+
   --color-text-primary: #0f0f13;
   --color-text-secondary: #4a4868;
   --color-text-muted: #8a88a8;
@@ -38,6 +42,10 @@
   --color-status-applied: #4fc3f7;
   --color-status-offer: #69db7c;
   --color-status-rejected: #ff6b6b;
+
+  --color-priority-low: #69db7c;
+  --color-priority-medium: #ffd43b;
+  --color-priority-high: #ff8787;
 
   --color-text-primary: #ffffff;
   --color-text-secondary: #a0a0b8;

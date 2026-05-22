@@ -4,7 +4,7 @@ import Navbar from "../features/shared/components/Navbar";
 
 const RootLayout = () => {
   return (
-    <main className="w-full max-h-screen bg-slate-50">
+    <main className="w-full max-h-screen bg-dark-900">
       <Navbar/>
       <Outlet />
     </main>

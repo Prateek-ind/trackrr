@@ -13,7 +13,7 @@ const DashboardTopbar = () => {
   };
 
   return (
-    <nav className="w-full h-16 px-6 border-b border-dark-border bg-slate-50 dark:bg-dark-900 flex items-center justify-between">
+    <nav className="w-full h-16 px-6 border-b border-dark-border bg-white dark:bg-dark-900 flex items-center justify-between">
       <Search searchInput={searchInput} onSearchInput={onSearchInput} />
 
       <div className="flex items-center gap-3">

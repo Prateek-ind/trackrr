@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import React, { useEffect, useState } from "react";
 import StatusPill from "./StatusPill";
 import { useNavigate } from "react-router-dom";
+import { statusStyles } from "@/types/status.types";
 
 interface Job {
   _id: string;
@@ -25,7 +26,7 @@ const RecentApplications = () => {
         const data = await getJobs();
         setJobs(data.jobs);
       } catch (err: any) {
-        setError( err.message || "Failed to load jobs");
+        setError(err.message || "Failed to load jobs");
       } finally {
         setLoading(false);
       }
@@ -38,9 +39,9 @@ const RecentApplications = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <section className="w-full col-span-2 border rounded-md shadow-md">
-      <div className="border-b border-dark-border flex items-center justify-between p-4">
-        <div>
+    <section className="w-full col-span-2 border rounded-md shadow-md bg-white dark:bg-dark-800">
+      <div className="border-b bg-dark-700 border-dark-border flex items-center justify-between p-4">
+        <div className="">
           <h2 className="text-2xl font-bold text-text-primary">
             Recent Applications
           </h2>
@@ -78,7 +79,7 @@ const RecentApplications = () => {
             <p className="font-medium text-text-secondary">
               {new Date(job.appliedAt).toDateString()}
             </p>
-            <StatusPill status={job.status} />
+            <StatusPill value={job.status} variants={statusStyles} />
             <p>{job.action}</p>
           </div>
         ))

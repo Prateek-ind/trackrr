@@ -49,14 +49,14 @@ const colorMap = {
 };
 
 const LiveActivity = () => (
-  <div className="w-full border rounded-md shadow-md p-4">
-    <div className="mb-6 border-b border-dark-border py-4">
+  <div className="w-full border rounded-md shadow-md bg-white dark:bg-dark-800">
+    <div className="w-full mb-6 border-b border-dark-border p-4 bg-dark-700">
       <h2 className="text-2xl font-bold text-text-primary">Live Activity</h2>
       <p className="text-sm font-semibold text-text-muted">
         Real-time search updates.
       </p>
     </div>
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 p-4">
       {activities.map((activity) => (
         <div key={activity.id} className="flex items-start gap-3">
           <div
@@ -73,7 +73,7 @@ const LiveActivity = () => (
         </div>
       ))}
     </div>
-    <button className="w-full text-center text-sm text-text-muted font-medium mt-6 pt-4 border-t border-dark-border hover:text-text-primary transition-colors">
+    <button className="w-full py-4 text-center text-sm text-text-muted font-medium mt-6 pt-4 border-t border-dark-border hover:text-text-primary transition-colors">
       View Full History
     </button>
   </div>

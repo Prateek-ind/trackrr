@@ -39,7 +39,7 @@ const StatsCard = () => {
       {statsCards.map(({ heading, value, icon: Icon, description, color }) => (
         <div
           key={heading}
-          className="w-full max-w-64 border border-dark-border p-6 rounded-md shadow-md"
+          className="w-full max-w-64 border border-dark-border p-6 rounded-md shadow-md bg-white dark:bg-dark-800"
         >
           <div
             className={`w-10 h-10 mb-4 flex items-center justify-center rounded-md p-1 ${color}`}

@@ -12,7 +12,7 @@ const protect = require("../middlewares/protect.middleware");
 router.get("/", protect, getJobs);
 router.get("/:id", protect, getJobById);
 router.post("/", protect, createJob);
-router.put("/:id", protect, updateJob);
+router.put("/:id/edit", protect, updateJob);
 router.delete("/:id", protect, deleteJob);
 
 module.exports = router;

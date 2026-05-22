@@ -94,7 +94,7 @@ const deleteJob = async (req, res) => {
 
   try {
     const existingJob = await Job.findOne({
-      id,
+      _id: id,
       user: req.user._id,
     });
 

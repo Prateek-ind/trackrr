@@ -4,9 +4,9 @@ import Sidebar from "../features/Dashboard/components/Sidebar";
 
 const DashboardLayout = () => {
   return (
-    <main className="flex w-full min-h-screen bg-slate-50">
+    <main className="flex w-full min-h-screen bg-white">
       <Sidebar />
-      <div className="flex-1 bg-dark-900">
+      <div className="flex-1 bg-white dark:bg-dark-900">
         <DashboardTopbar />
         <Outlet />
       </div>

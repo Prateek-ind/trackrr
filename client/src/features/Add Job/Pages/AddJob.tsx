@@ -19,7 +19,9 @@ const AddJob = () => {
     attachments: [],
   });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -35,8 +37,8 @@ const AddJob = () => {
   };
 
   return (
-    <section className="w-full max-w-6xl pl-24 mt-12 bg-dark-900">
-      <div>
+    <section className="w-full max-w-6xl pl-24 mt-12 bg-white dark:bg-dark-900">
+      <div >
         <div className="mb-6">
           <h2 className="text-3xl font-extrabold text-text-primary">
             Add New Application

@@ -17,4 +17,5 @@ export interface FormSectionProps {
   formData: JobFormData
   handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
   setFormData: React.Dispatch<React.SetStateAction<JobFormData>>
+  onCancel: ()=> void
 }

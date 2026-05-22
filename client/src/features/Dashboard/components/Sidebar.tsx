@@ -27,7 +27,7 @@ const Sidebar = () => {
   const { pathname } = useLocation();
 
   return (
-    <aside className="sticky top-0 flex h-screen w-64 flex-col border-r border-dark-border bg-dark-800">
+    <aside className="sticky top-0 flex h-screen w-64 flex-col border-r border-dark-border bg-white dark:bg-dark-800">
       <div className="flex items-center justify-center gap-2   p-6">
         <Logo />
         <h2 className="text-2xl font-bold text-brand-purple">Trackrr</h2>

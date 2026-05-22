@@ -19,15 +19,15 @@ const weeklyData = [
 ];
 
 const WeeklyBarChart = () => (
-  <div className="w-full border rounded-md shadow-md p-4">
-    <div className="mb-6 border-b border-dark-border py-4">
+  <div className="w-full border rounded-md shadow-md bg-white dark:bg-dark-800">
+    <div className="mb-6 border-b border-dark-border p-4 bg-dark-700">
       <h2 className="text-2xl font-bold text-text-primary">Weekly Application Trend</h2>
       <p className="text-sm font-semibold text-text-muted">
         Volume of submissions over the last 7 days.
       </p>
     </div>
-    <ResponsiveContainer width="100%" height={250}>
-      <BarChart data={weeklyData}>
+    <ResponsiveContainer width="100%" height={250} className="p-6">
+      <BarChart data={weeklyData} className="pr-6 ">
         <CartesianGrid strokeDasharray="3 3" vertical={false} />
         <XAxis dataKey="day" axisLine={false} tickLine={false} />
         <YAxis axisLine={false} tickLine={false} />

@@ -2,6 +2,7 @@ import { getJobs } from "@/api/job";
 import { Button } from "@/components/ui/button";
 import StatusPill from "@/features/Dashboard/components/StatusPill";
 import Search from "@/features/shared/components/Search";
+import { statusStyles } from "@/types/status.types";
 import { MapPin } from "lucide-react";
 import { useEffect, useState, type ChangeEvent } from "react";
 import { LuCirclePlus } from "react-icons/lu";
@@ -21,7 +22,7 @@ const Applications = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getJobsData = async () => {
@@ -46,7 +47,7 @@ const Applications = () => {
   };
 
   return (
-    <section className="w-full flex-1 p-8 bg-white dark:bg-dark-900 min-h-screen">
+    <section className="w-full flex-1 p-8  bg-white dark:bg-dark-900 min-h-screen">
       <div className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-text-primary">Applications</h1>
@@ -61,12 +62,12 @@ const Applications = () => {
         </Link>
       </div>
 
-      <div className="p-4 border border-dark-border rounded-md shadow-md mb-6">
+      <div className="p-4 border bg-dark-800 border-dark-border rounded-md shadow-md mb-6">
         <Search searchInput={searchInput} onSearchInput={onSearchInput} />
         <div></div>
       </div>
 
-      <div className=" border border-dark-border  rounded-md shadow-md mb-6">
+      <div className=" border border-dark-border bg-dark-800 rounded-md shadow-md mb-6">
         <div className="grid grid-cols-5 gap-4 p-4 border-b text-text-primary border-dark-border text-sm font-semibold">
           <p className="col-span-2 text-left">Company & Role</p>
           <p className="text-left">Location</p>
@@ -80,8 +81,8 @@ const Applications = () => {
           jobs.map((job) => (
             <div
               key={job._id}
-              onClick={()=>navigate(`/dashboard/applications/${job._id}`)}
-              className="grid grid-cols-5 gap-4 px-4 py-6 border-b border-dark-border text-sm items-center"
+              onClick={() => navigate(`/dashboard/applications/${job._id}`)}
+              className="grid grid-cols-5 gap-4 px-4 py-6 bg-white dark:bg-dark-700 border-b border-dark-border text-sm items-center cursor-pointer"
             >
               <div className="col-span-2">
                 <p className="font-semibold text-text-primary">{job.role}</p>
@@ -91,7 +92,7 @@ const Applications = () => {
                 <MapPin size={20} className="text-text-secondary" />
                 <p className="text-text-secondary">{job.location}</p>
               </div>
-              <StatusPill status={job.status} />
+              <StatusPill value={job.status} variants={statusStyles} />
               <p className="text-text-secondary">
                 {new Date(job.appliedAt).toDateString()}
               </p>

@@ -1,21 +1,18 @@
-import React from "react";
+interface PillProps {
+  value: string;
+  variants: Record<string, string>;
+}
 
-const StatusPill = ({ status }: { status: string }) => {
+const Pill = ({ value, variants }: PillProps) => {
   return (
     <div
-      className={`rounded-full px-6 py-1 text-sm font-medium w-fit h-8  ${
-        status === "applied"
-          ? "bg-status-applied/15 text-status-applied"
-          : status === "interview"
-            ? "bg-status-interview/15 text-status-interview"
-            : status === "offer"
-              ? "bg-status-offer/15 text-status-offer"
-              : "bg-status-rejected/15 text-status-rejected"
+      className={`rounded-full px-6 py-1 text-sm font-medium w-fit h-8 ${
+        variants[value] || "bg-gray-200 text-gray-700"
       }`}
     >
-      {status}
+      {value}
     </div>
   );
 };
 
-export default StatusPill;
+export default Pill;
