@@ -36,6 +36,10 @@ const AddJob = () => {
     }
   };
 
+  const onCancel = ()=>{
+    navigate("/dashboard/applications")
+  }
+
   return (
     <section className="w-full max-w-6xl pl-24 mt-12 bg-white dark:bg-dark-900">
       <div >
@@ -52,6 +56,7 @@ const AddJob = () => {
             formData={formData}
             handleChange={handleChange}
             setFormData={setFormData}
+            onCancel={onCancel}
           />
         </form>
       </div>

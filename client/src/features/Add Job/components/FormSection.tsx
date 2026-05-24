@@ -13,6 +13,7 @@ const FormSection = ({
   formData,
   handleChange,
   setFormData,
+  onCancel,
 }: FormSectionProps) => {
   return (
     <div className="max-w-4xl rounded-2xl border border-dark-border bg-dark-800 shadow-lg p-6 space-y-10">
@@ -131,6 +132,7 @@ const FormSection = ({
           type="button"
           variant="outline"
           className="border-dark-border text-text-primary hover:bg-dark-700"
+          onClick={onCancel}
         >
           Cancel
         </Button>
