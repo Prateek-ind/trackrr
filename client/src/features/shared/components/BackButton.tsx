@@ -9,7 +9,7 @@ const BackButton = () => {
     <Button
       variant={"secondary"}
       onClick={() => navigate(-1)}
-      className="  text-text-muted hover:text-text-primary transition-colors px-8 py-2 mb-4"
+      className="  text-text-secondary hover:text-text-primary bg-dark-600 transition-colors px-8 py-2 mb-4 cursor-pointer"
     >
       <ArrowLeft size={24} />
       Back
