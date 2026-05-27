@@ -139,49 +139,47 @@ const generateResume = async (req, res) => {
       messages: [
         {
           role: "user",
-          content: `You are an expert CV writer.
+          content: `Please act as a FAANG ATS resume auditor and reviewer.
 
-                    Tailor this resume for the following job and return ONLY a complete valid HTML document.
-                    No explanation, no markdown, no backticks.
+Generate a highly effective, one-page LaTeX code that passes all ATS filters.
+The code should compile error-free on Overleaf using pdfLaTeX compiler.
 
-                    Job Title: ${jobTitle}
-                    Company: ${company}
+IMPORTANT RULES:
+- Use pdfLaTeX compatible packages ONLY
+- Do NOT use fontspec (it requires XeLaTeX)
+- Do NOT use \setmainfont (requires fontspec)
+- Use these safe packages instead: inputenc, fontenc, lmodern
+- All packages must be pdfLaTeX compatible
 
-                    Job Description:
-                    ${jobDescription}
+Tailor it specifically for this role:
+Job Title: ${jobTitle}
+Company: ${company}
 
-                    Current Resume:
-                    ${resumeText}
+Job Description:
+${jobDescription}
 
-                    ${omitText}
+Current Resume Content:
+${resumeText}
 
-                    Instructions:
-                    - Highlight skills and experience relevant to this role
-                    - Use strong action verbs
-                    - Return ONLY complete HTML with inline CSS
+${omitText}
 
-                    Design requirements — match this exact style:
-                    - White background, black text, clean minimal layout
-                    - Name centered at top in large bold font
-                    - Contact info centered below name separated by | pipes
-                    - Each section has a bold uppercase title with a full-width horizontal line underneath
-                    - Skills listed as "Label: value" on same line separated by line breaks
-                    - Experience and projects have company/title on left, date on right (space-between)
-                    - Role subtitle in italics below title
-                    - Bullet points for responsibilities and achievements
-                    - Tight spacing, dense information, professional look
-                    - Font: Arial or Helvetica, 10-11px body text
-                    - Margins: 0.65 inches all sides
-                    - A4 page size
-                    - No colors except blue for hyperlinks`,
+Requirements:
+- Include professional summary, skills, experience, projects, education
+- Keyword optimized for the job description
+- Clean professional formatting with bullet points
+- ATS friendly
+- Return ONLY the complete LaTeX code, no explanation, no markdown, no backticks`,
         },
       ],
     });
 
-    const raw = completion.choices[0].message.content;
-    const resumeData = JSON.parse(raw);
+    const latex = completion.choices[0].message.content
+      .trim()
+      .replace(/^```latex\n?/, "") // remove if groq wraps in markdown code block
+      .replace(/^```\n?/, "")
+      .replace(/```$/, "");
 
-    res.status(200).json({ message: "Resume data generated", resumeData });
+    res.status(200).json({ message: "Resume data generated", latex });
   } catch (error) {
     console.error(error);
     res
