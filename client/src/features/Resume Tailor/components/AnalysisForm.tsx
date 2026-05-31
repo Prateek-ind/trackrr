@@ -6,6 +6,8 @@ import React, { useRef } from "react";
 import { LuLoaderCircle } from "react-icons/lu";
 import { RiResetRightLine } from "react-icons/ri";
 
+
+
 interface AnalysisFormProps {
   file: File | null;
   setFile: (file: File | null) => void;
@@ -14,6 +16,7 @@ interface AnalysisFormProps {
     company: string;
     jobDescription: string;
   };
+
   onChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => void;

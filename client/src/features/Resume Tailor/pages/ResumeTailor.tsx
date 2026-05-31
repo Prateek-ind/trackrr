@@ -100,6 +100,7 @@ const ResumeTailor = () => {
     }
   };
 
+
   const goToStep = (next: Step) => {
     const current = stepNumber[step];
     setCompletedSteps((prev) =>
@@ -197,10 +198,10 @@ const ResumeTailor = () => {
         <>
           <div className="space-y-4 mb-8">
             <h2 className="text-3xl font-bold text-text-primary dark:text-white">
-              Step-3 Resume Builder
+              Step-3 Your Tailored Resume
             </h2>
             <p className="text-sm text-text-secondary ">
-              Generate and export your industry standard LaTeX resume
+              Copy the LaTeX code and compile it using Overleaf or Prism.
             </p>
           </div>
           <LatexOutput latex={latex} onBack={() => setStep("gaps")} />

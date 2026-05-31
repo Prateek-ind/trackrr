@@ -128,22 +128,22 @@ const generateLatex = async (req, res) => {
     return res.status(400).json({ message: "All fields are required." });
   }
 
-  try {
-    const omitText = omittedSkills?.length
-      ? `Do NOT include or mention these skills: ${omittedSkills.join(", ")}`
-      : "";
+  const omitText = omittedSkills?.length
+    ? `Do NOT include or mention these skills: ${omittedSkills.join(", ")}`
+    : "";
 
-    const completion = await client.chat.completions.create({
-      model: "llama-3.3-70b-versatile",
-      max_tokens: 4096,
-      messages: [
-        {
-          role: "user",
-          content: `Please act as a FAANG ATS resume auditor and reviewer.
+  const isLinkedIn =
+    resumeText.toLowerCase().includes("connections") ||
+    resumeText.toLowerCase().includes("followers") ||
+    resumeText.toLowerCase().includes("recommendations") ||
+    resumeText.toLowerCase().includes("linkedin.com/in");
 
-Generate a highly effective LaTeX resume that passes all ATS filters and compiles error-free on Overleaf using pdfLaTeX.
+  const linkedInNote = isLinkedIn
+    ? "This resume was exported from LinkedIn. Extract only professional content — ignore connection counts, follower numbers, endorsement counts, and LinkedIn metadata."
+    : "";
 
-Tailor it for this role:
+  const prompt = `Please act as a world-class ATS resume auditor.
+
 Job Title: ${jobTitle}
 Company: ${company}
 
@@ -154,8 +154,9 @@ Candidate Resume:
 ${resumeText}
 
 ${omitText}
+${linkedInNote}
 
-YOU MUST follow this EXACT LaTeX structure and formatting — only change the content:
+CRITICAL: YOU MUST USE THIS EXACT PREAMBLE — DO NOT CHANGE A SINGLE CHARACTER:
 
 \\documentclass[10pt,a4paper]{article}
 \\usepackage[margin=0.65in]{geometry}
@@ -171,102 +172,62 @@ YOU MUST follow this EXACT LaTeX structure and formatting — only change the co
 \\setlength{\\parindent}{0pt}
 \\setlist[itemize]{leftmargin=*, topsep=2pt, itemsep=1pt, parsep=0pt}
 
-\\begin{document}
+CRITICAL: YOU MUST USE THESE EXACT FORMATTING PATTERNS — NO EXCEPTIONS:
 
+HEADER — exact format:
 \\begin{center}
-  {\\LARGE \\textbf{[NAME]}} \\\\[4pt]
-  \\href{mailto:[EMAIL]}{[EMAIL]} \\;|\\; [PHONE] \\;|\\; [LOCATION] \\;|\\;
-  \\href{[LINKEDIN_URL]}{[LINKEDIN_DISPLAY]} \\;|\\;
-  \\href{[GITHUB_URL]}{[GITHUB_DISPLAY]}
+  {\\LARGE \\textbf{NAME}} \\\\[4pt]
+  \\href{mailto:EMAIL}{EMAIL} \\;|\\; PHONE \\;|\\; LOCATION \\;|\\;
+  \\href{LINKEDIN_URL}{LINKEDIN_DISPLAY} \\;|\\;
+  \\href{GITHUB_URL}{GITHUB_DISPLAY}
 \\end{center}
 
-\\section{Professional Summary}
-\\textbf{[ROLE]} with [DETAILED SUMMARY — 4-5 lines, include all key skills, achievements and value proposition tailored to the job]
+SKILLS — never use bullet points, always inline with label:
+\\textbf{Category:} item1, item2, item3 \\\\
+\\textbf{Category:} item1, item2, item3 \\\\
 
-\\section{Technical Skills}
-\\textbf{Languages:} [list] \\\\
-\\textbf{Frontend:} [full detailed list] \\\\
-\\textbf{Backend:} [full detailed list] \\\\
-\\textbf{Performance:} [full detailed list] \\\\
-\\textbf{Patterns \\& Concepts:} [full detailed list] \\\\
-\\textbf{Tools:} [full detailed list]
-
-\\section{Projects}
-\\textbf{[PROJECT NAME]} \\hfill \\href{[URL]}{Live Demo \\textrightarrow} \\\\
-\\textit{[Full Tech Stack]}
+EXPERIENCE/PROJECT ENTRY — exact format:
+\\textbf{Title} \\hfill Start -- End \\\\
+\\textit{Company or Tech Stack, Location}
 \\begin{itemize}
-  \\item \\textbf{[keyword]} detailed achievement with metrics
-  \\item \\textbf{[keyword]} detailed achievement with metrics
-  \\item \\textbf{[keyword]} detailed achievement with metrics
-  \\item \\textbf{[keyword]} detailed achievement with metrics
+  \\item \\textbf{Keyword} descriptive achievement with metric
+  \\item \\textbf{Keyword} descriptive achievement with metric
 \\end{itemize}
-
 \\vspace{4pt}
-\\textbf{[PROJECT 2]} \\hfill \\href{[URL]}{Live Demo \\textrightarrow} \\\\
-\\textit{[Full Tech Stack]}
-\\begin{itemize}
-  \\item \\textbf{[keyword]} detailed achievement with metrics
-  \\item \\textbf{[keyword]} detailed achievement with metrics
-  \\item \\textbf{[keyword]} detailed achievement with metrics
-  \\item \\textbf{[keyword]} detailed achievement with metrics
-\\end{itemize}
 
-\\section{Experience}
-\\textbf{[JOB TITLE]} \\hfill [START] -- [END] \\\\
-\\textit{[Company, Location]}
-\\begin{itemize}
-  \\item \\textbf{[keyword]} detailed achievement with metrics
-  \\item \\textbf{[keyword]} detailed achievement with metrics
-  \\item \\textbf{[keyword]} detailed achievement with metrics
-  \\item \\textbf{[keyword]} detailed achievement with metrics
-\\end{itemize}
-
-\\vspace{4pt}
-\\textbf{[JOB TITLE 2]} \\hfill [START] -- [END] \\\\
-\\textit{[Company, Location]}
-\\begin{itemize}
-  \\item \\textbf{[keyword]} detailed achievement with metrics
-  \\item \\textbf{[keyword]} detailed achievement with metrics
-\\end{itemize}
-
-\\vspace{4pt}
-\\textbf{[JOB TITLE 3]} \\hfill [START] -- [END] \\\\
-\\textit{[Company, Location]}
-\\begin{itemize}
-  \\item \\textbf{[keyword]} achievement
-\\end{itemize}
-
-\\vspace{4pt}
-\\textbf{[JOB TITLE 4]} \\hfill [START] -- [END] \\\\
-\\textit{[Company, Location]}
-\\begin{itemize}
-  \\item \\textbf{[keyword]} achievement
-\\end{itemize}
-
+- Education format:
 \\section{Education}
-\\textbf{[DEGREE]} \\hfill [START] -- [END] \\\\
-\\textit{[Institution, Location]}
+\\textbf{Degree} \\hfill Start -- End \\\\
+\\textit{Institution, Location}
 
-\\end{document}
+CONTENT RULES:
 
-STRICT RULES:
-- Use identical packages, commands, and structure as above — do NOT deviate
-- Include ALL experience roles from the candidate's resume
-- Include ALL projects from the candidate's resume
-- Use full detailed bullet points — do not trim content
-- Bold keywords using \\textbf{} throughout
-- Dates always on the right using \\hfill
-- Company always in \\textit{} below title
-- Return ONLY the complete LaTeX code, no explanation, no markdown, no backticks`,
-        },
-      ],
+- Professional Summary: 5-6 lines, cover role, experience, strengths, achievements, value prop
+- Infer skill categories dynamically from the industry and JD and without breaking words — never hardcode
+- Include ALL roles and ALL projects with 3-5 detailed bullets each
+- Bold important keywords using \\textbf{} in every bullet
+- Can be 2 pages — never sacrifice content
+- ALWAYS include Education section — never omit it
+- ALWAYS follow this exact section order: Professional Summary → Skills → Projects → Experience → Education
+- Never change the section order under any circumstances
+- Output MUST start with \\documentclass and contain \\begin{document} and \\end{document}
+- Return ONLY the complete LaTeX code, no explanation, no markdown, no backticks`;
+
+  try {
+    const completion = await client.chat.completions.create({
+      model: "llama-3.3-70b-versatile",
+      max_tokens: 4096,
+      messages: [{ role: "user", content: prompt }],
     });
 
-    const latex = completion.choices[0].message.content
-      .trim()
-      .replace(/^```latex\n?/, "") // remove if groq wraps in markdown code block
-      .replace(/^```\n?/, "")
-      .replace(/```$/, "");
+    let latex = completion.choices[0].message.content.trim();
+
+    // clean up if model wraps in markdown
+    if (latex.startsWith("```latex")) latex = latex.slice(8);
+    if (latex.startsWith("```")) latex = latex.slice(3);
+    if (latex.endsWith("```")) latex = latex.slice(0, -3);
+
+    latex = latex.trim();
 
     res.status(200).json({ message: "Resume data generated", latex });
   } catch (error) {
