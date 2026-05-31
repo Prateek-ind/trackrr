@@ -14,6 +14,7 @@ import Settings from "../../features/Settings/pages/Settings";
 import AddJob from "@/features/Add Job/Pages/AddJob";
 import JobDetail from "@/features/Applications/pages/JobDetail";
 import EditJobDetail from "@/features/Applications/pages/EditJobDetail";
+import ResumeTailor from "@/features/Resume Tailor/pages/resumeTailor";
 
 export const router = createBrowserRouter([
   {
@@ -54,6 +55,10 @@ export const router = createBrowserRouter([
       {
         path: "analytics",
         element: <Analytics />,
+      },
+      {
+        path: "resume",
+        element: <ResumeTailor />,
       },
       {
         path: "Profile",

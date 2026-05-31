@@ -120,7 +120,7 @@ const gapRoadmap = async (req, res) => {
   }
 };
 
-const generateResume = async (req, res) => {
+const generateLatex = async (req, res) => {
   const { resumeText, jobTitle, company, jobDescription, omittedSkills } =
     req.body;
 
@@ -141,33 +141,122 @@ const generateResume = async (req, res) => {
           role: "user",
           content: `Please act as a FAANG ATS resume auditor and reviewer.
 
-Generate a highly effective, one-page LaTeX code that passes all ATS filters.
-The code should compile error-free on Overleaf using pdfLaTeX compiler.
+Generate a highly effective LaTeX resume that passes all ATS filters and compiles error-free on Overleaf using pdfLaTeX.
 
-IMPORTANT RULES:
-- Use pdfLaTeX compatible packages ONLY
-- Do NOT use fontspec (it requires XeLaTeX)
-- Do NOT use \setmainfont (requires fontspec)
-- Use these safe packages instead: inputenc, fontenc, lmodern
-- All packages must be pdfLaTeX compatible
-
-Tailor it specifically for this role:
+Tailor it for this role:
 Job Title: ${jobTitle}
 Company: ${company}
 
 Job Description:
 ${jobDescription}
 
-Current Resume Content:
+Candidate Resume:
 ${resumeText}
 
 ${omitText}
 
-Requirements:
-- Include professional summary, skills, experience, projects, education
-- Keyword optimized for the job description
-- Clean professional formatting with bullet points
-- ATS friendly
+YOU MUST follow this EXACT LaTeX structure and formatting — only change the content:
+
+\\documentclass[10pt,a4paper]{article}
+\\usepackage[margin=0.65in]{geometry}
+\\usepackage{enumitem}
+\\usepackage{hyperref}
+\\usepackage{titlesec}
+\\usepackage{parskip}
+\\usepackage[T1]{fontenc}
+\\usepackage[utf8]{inputenc}
+\\hypersetup{colorlinks=true, urlcolor=blue, linkcolor=blue}
+\\titleformat{\\section}{\\bfseries\\large}{}{0em}{}[\\titlerule]
+\\titlespacing{\\section}{0pt}{6pt}{4pt}
+\\setlength{\\parindent}{0pt}
+\\setlist[itemize]{leftmargin=*, topsep=2pt, itemsep=1pt, parsep=0pt}
+
+\\begin{document}
+
+\\begin{center}
+  {\\LARGE \\textbf{[NAME]}} \\\\[4pt]
+  \\href{mailto:[EMAIL]}{[EMAIL]} \\;|\\; [PHONE] \\;|\\; [LOCATION] \\;|\\;
+  \\href{[LINKEDIN_URL]}{[LINKEDIN_DISPLAY]} \\;|\\;
+  \\href{[GITHUB_URL]}{[GITHUB_DISPLAY]}
+\\end{center}
+
+\\section{Professional Summary}
+\\textbf{[ROLE]} with [DETAILED SUMMARY — 4-5 lines, include all key skills, achievements and value proposition tailored to the job]
+
+\\section{Technical Skills}
+\\textbf{Languages:} [list] \\\\
+\\textbf{Frontend:} [full detailed list] \\\\
+\\textbf{Backend:} [full detailed list] \\\\
+\\textbf{Performance:} [full detailed list] \\\\
+\\textbf{Patterns \\& Concepts:} [full detailed list] \\\\
+\\textbf{Tools:} [full detailed list]
+
+\\section{Projects}
+\\textbf{[PROJECT NAME]} \\hfill \\href{[URL]}{Live Demo \\textrightarrow} \\\\
+\\textit{[Full Tech Stack]}
+\\begin{itemize}
+  \\item \\textbf{[keyword]} detailed achievement with metrics
+  \\item \\textbf{[keyword]} detailed achievement with metrics
+  \\item \\textbf{[keyword]} detailed achievement with metrics
+  \\item \\textbf{[keyword]} detailed achievement with metrics
+\\end{itemize}
+
+\\vspace{4pt}
+\\textbf{[PROJECT 2]} \\hfill \\href{[URL]}{Live Demo \\textrightarrow} \\\\
+\\textit{[Full Tech Stack]}
+\\begin{itemize}
+  \\item \\textbf{[keyword]} detailed achievement with metrics
+  \\item \\textbf{[keyword]} detailed achievement with metrics
+  \\item \\textbf{[keyword]} detailed achievement with metrics
+  \\item \\textbf{[keyword]} detailed achievement with metrics
+\\end{itemize}
+
+\\section{Experience}
+\\textbf{[JOB TITLE]} \\hfill [START] -- [END] \\\\
+\\textit{[Company, Location]}
+\\begin{itemize}
+  \\item \\textbf{[keyword]} detailed achievement with metrics
+  \\item \\textbf{[keyword]} detailed achievement with metrics
+  \\item \\textbf{[keyword]} detailed achievement with metrics
+  \\item \\textbf{[keyword]} detailed achievement with metrics
+\\end{itemize}
+
+\\vspace{4pt}
+\\textbf{[JOB TITLE 2]} \\hfill [START] -- [END] \\\\
+\\textit{[Company, Location]}
+\\begin{itemize}
+  \\item \\textbf{[keyword]} detailed achievement with metrics
+  \\item \\textbf{[keyword]} detailed achievement with metrics
+\\end{itemize}
+
+\\vspace{4pt}
+\\textbf{[JOB TITLE 3]} \\hfill [START] -- [END] \\\\
+\\textit{[Company, Location]}
+\\begin{itemize}
+  \\item \\textbf{[keyword]} achievement
+\\end{itemize}
+
+\\vspace{4pt}
+\\textbf{[JOB TITLE 4]} \\hfill [START] -- [END] \\\\
+\\textit{[Company, Location]}
+\\begin{itemize}
+  \\item \\textbf{[keyword]} achievement
+\\end{itemize}
+
+\\section{Education}
+\\textbf{[DEGREE]} \\hfill [START] -- [END] \\\\
+\\textit{[Institution, Location]}
+
+\\end{document}
+
+STRICT RULES:
+- Use identical packages, commands, and structure as above — do NOT deviate
+- Include ALL experience roles from the candidate's resume
+- Include ALL projects from the candidate's resume
+- Use full detailed bullet points — do not trim content
+- Bold keywords using \\textbf{} throughout
+- Dates always on the right using \\hfill
+- Company always in \\textit{} below title
 - Return ONLY the complete LaTeX code, no explanation, no markdown, no backticks`,
         },
       ],
@@ -188,4 +277,4 @@ Requirements:
   }
 };
 
-module.exports = { analyseResume, gapRoadmap, generateResume };
+module.exports = { analyseResume, gapRoadmap, generateLatex };

@@ -5,6 +5,7 @@ import {
   BriefcaseBusiness,
   PlusCircle,
   BarChart2,
+  LucideFileBadge,
   UserRound,
   Settings,
   LogOut,
@@ -19,6 +20,7 @@ const sidebarOptions = [
   },
   { name: "Add Job", path: "/dashboard/add-job", icon: PlusCircle },
   { name: "Analytics", path: "/dashboard/analytics", icon: BarChart2 },
+  { name: "Resume Tailor", path: "/dashboard/resume", icon: LucideFileBadge },
   { name: "Profile", path: "/dashboard/profile", icon: UserRound },
   { name: "Settings", path: "/dashboard/settings", icon: Settings },
 ];
