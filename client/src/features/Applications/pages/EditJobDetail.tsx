@@ -2,7 +2,7 @@ import React, { useEffect, useState, type ChangeEvent } from "react";
 
 import { useNavigate, useParams } from "react-router-dom";
 import { getJobs, updateJob } from "@/api/job";
-import type {  JobFormData } from "@/types/job.types";
+import type { JobFormData } from "@/types/job.types";
 import EditFormSection from "../components/EditFormSection";
 import BackButton from "@/features/shared/components/BackButton";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -81,6 +81,9 @@ const EditJobDetail = () => {
           </p>
         </div>
         <form onSubmit={handleSubmit}>
+          {mutation.isError && (
+            <p className="text-xs text-red-500">{mutation.error.message}</p>
+          )}
           <EditFormSection
             formData={formData}
             handleChange={handleChange}
