@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import RecentApplications from "../components/RecentApplications";
 import StatsCard from "../components/StatsCard";
-import { LuCirclePlus } from "react-icons/lu";
+import { LuCirclePlus, LuLoaderCircle } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import LiveActivity from "../components/LiveActivity";
 import WeeklyBarChart from "../components/WeeklyBarChart";
@@ -13,8 +13,8 @@ import { useEffect } from "react";
 import { computeStats, setJobs } from "@/store/jobs.slice";
 
 const Dashboard = () => {
-    const dispatch = useDispatch<AppDispatch>();
-    const {
+  const dispatch = useDispatch<AppDispatch>();
+  const {
     data: jobs,
     isLoading,
     error,
@@ -29,10 +29,24 @@ const Dashboard = () => {
   useEffect(() => {
     if (jobs) {
       dispatch(setJobs(jobs));
-      dispatch(computeStats())
-      console.log(jobs)
+      dispatch(computeStats());
+      console.log(jobs);
     }
   }, [jobs, dispatch]);
+
+  if (isLoading)
+    return (
+      <div className="w-full h-screen flex items-center justify-center gap-4 text-xl">
+        <LuLoaderCircle size={32} className="animate-spin" /> <p>Loading...</p>
+      </div>
+    );
+  if (error)
+    return (
+      <div className="w-full h-screen flex items-center justify-center gap-4 bg-red-500 text-red-700">
+        <p>Error: </p> <span>{error.message}</span>
+      </div>
+    );
+
   return (
     <main className="flex-1 p-8 bg-white dark:bg-dark-900 min-h-screen">
       <div className="mb-8 flex items-center justify-between">
