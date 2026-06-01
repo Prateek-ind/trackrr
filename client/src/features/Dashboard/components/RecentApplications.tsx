@@ -1,39 +1,16 @@
-import { getJobs } from "@/api/job";
 import { Button } from "@/components/ui/button";
-import React, { useEffect, useState } from "react";
 import StatusPill from "./StatusPill";
 import { useNavigate } from "react-router-dom";
 import { statusStyles } from "@/types/status.types";
-
-interface Job {
-  _id: string;
-  role: string;
-  company: string;
-  status: string;
-  appliedAt: Date;
-  action: string;
-}
+import { useSelector } from "react-redux";
+import { type Job } from "@/store/jobs.slice";
+import type { RootState } from "@/store/store";
 
 const RecentApplications = () => {
-  const [jobs, setJobs] = useState<Job[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { jobs, loading, error } = useSelector(
+    (state: RootState) => state.jobs,
+  );
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const getJobsData = async () => {
-      try {
-        const data = await getJobs();
-        setJobs(data.jobs);
-      } catch (err: any) {
-        setError(err.message || "Failed to load jobs");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getJobsData();
-  }, []);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
@@ -67,7 +44,7 @@ const RecentApplications = () => {
       {jobs.length === 0 ? (
         <p className="p-4 text-text-secondary">No applications yet.</p>
       ) : (
-        jobs.map((job) => (
+        jobs.map((job: Job) => (
           <div
             key={job._id}
             className="p-4 border-b border-dark-border grid grid-cols-6 gap-4 text-center text-sm"

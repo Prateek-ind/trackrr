@@ -1,39 +1,50 @@
 import { MdOutlineCancel } from "react-icons/md";
-import { LuBriefcaseBusiness, LuFileBadge } from "react-icons/lu";
+import { LuBriefcaseBusiness, LuFileBadge, LuLoaderCircle } from "react-icons/lu";
 import { SlCalender } from "react-icons/sl";
-
-const statsCards = [
-  {
-    heading: "Total Applications",
-    value: 10,
-    icon: LuBriefcaseBusiness,
-    description: "from last month",
-    color: "text-status-applied bg-status-applied/15",
-  },
-  {
-    heading: "Interviews",
-    value: 2,
-    icon: SlCalender,
-    description: "this month",
-    color: "text-status-interview bg-status-interview/15",
-  },
-  {
-    heading: "Offers",
-    value: 0,
-    icon: LuFileBadge,
-    description: "this month",
-    color: "text-status-offer bg-status-offer/15",
-  },
-  {
-    heading: "Rejections",
-    value: 4,
-    icon: MdOutlineCancel,
-    description: "from last month",
-    color: "text-status-rejected bg-status-rejected/15",
-  },
-];
+import { useSelector } from "react-redux";
+import type { RootState } from "@/store/store";
 
 const StatsCard = () => {
+  const { stats, loading, error } = useSelector(
+    (state: RootState) => state.jobs,
+  );
+
+
+  
+  if (loading) return <p><LuLoaderCircle size={20} className="animate-spin"/> Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+
+  const statsCards = [
+    {
+      heading: "Total Applications",
+      value: stats.total,
+      icon: LuBriefcaseBusiness,
+      description: "all time",
+      color: "text-status-applied bg-status-applied/15",
+    },
+    {
+      heading: "Interviews",
+      value: stats.interviews,
+      icon: SlCalender,
+      description: "this month",
+      color: "text-status-interview bg-status-interview/15",
+    },
+    {
+      heading: "Offers",
+      value: stats.offers,
+      icon: LuFileBadge,
+      description: "this month",
+      color: "text-status-offer bg-status-offer/15",
+    },
+    {
+      heading: "Rejections",
+      value: stats.rejections,
+      icon: MdOutlineCancel,
+      description: "all time",
+      color: "text-status-rejected bg-status-rejected/15",
+    },
+  ];
+
   return (
     <div className="flex items-center gap-4 mb-12">
       {statsCards.map(({ heading, value, icon: Icon, description, color }) => (
