@@ -1,11 +1,8 @@
-
-import type { JobFormData } from '@/types/job.types'
-import {  createSlice } from '@reduxjs/toolkit'
+import type { Job, JobFormData } from '@/types/job.types'
+import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
-export interface Job extends JobFormData {
-  _id: string
-}
+
 
 export interface Stats {
   total: number
@@ -19,7 +16,7 @@ export interface JobState {
   jobs: Job[]
   stats: Stats
   loading: boolean
-  error: string | null
+  error: string  | null
 }
 
 const initialState: JobState = {
@@ -81,5 +78,5 @@ const jobsSlice = createSlice({
 
     // }
 })
-export const { computeStats, setJobs } = jobsSlice.actions
+export const {setJobs, computeStats} = jobsSlice.actions
 export default jobsSlice.reducer

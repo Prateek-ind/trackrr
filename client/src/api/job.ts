@@ -1,5 +1,5 @@
 
-import type { JobFormData } from "@/types/job.types"
+import type { Job, JobFormData } from "@/types/job.types"
 
 const BASE_URL = "http://localhost:3000/api"
 
@@ -63,7 +63,7 @@ export const getJobById = async (id: string)=>{
   }
 }
 
-export const updateJob = async (id: string, formData: JobFormData) => {
+export const updateJob = async (id: string, formData: Job) => {
 
   const response = await fetch(`${BASE_URL}/jobs/${id}/edit`, {
     method: "PUT",

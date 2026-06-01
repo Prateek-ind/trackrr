@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import RecentApplications from "../components/RecentApplications";
 import StatsCard from "../components/StatsCard";
-import { LuCirclePlus, LuLoaderCircle } from "react-icons/lu";
+import { LuCirclePlus } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import LiveActivity from "../components/LiveActivity";
 import WeeklyBarChart from "../components/WeeklyBarChart";
@@ -11,6 +11,9 @@ import { useQuery } from "@tanstack/react-query";
 import { getJobs } from "@/api/job";
 import { useEffect } from "react";
 import { computeStats, setJobs } from "@/store/jobs.slice";
+import Loading from "@/features/shared/components/Loading";
+import type { AppDispatch } from "@/store/store";
+import Error from "@/features/shared/components/Error";
 
 const Dashboard = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -34,17 +37,10 @@ const Dashboard = () => {
     }
   }, [jobs, dispatch]);
 
-  if (isLoading)
-    return (
-      <div className="w-full h-screen flex items-center justify-center gap-4 text-xl">
-        <LuLoaderCircle size={32} className="animate-spin" /> <p>Loading...</p>
-      </div>
-    );
+  if (isLoading) return <Loading />;
   if (error)
     return (
-      <div className="w-full h-screen flex items-center justify-center gap-4 bg-red-500 text-red-700">
-        <p>Error: </p> <span>{error.message}</span>
-      </div>
+     <Error message={error.message ?? "Something went wrong"} />
     );
 
   return (

@@ -1,46 +1,31 @@
-import { getJobs } from "@/api/job";
 import { Button } from "@/components/ui/button";
 import StatusPill from "@/features/Dashboard/components/StatusPill";
+import Error from "@/features/shared/components/Error";
+import Loading from "@/features/shared/components/Loading";
 import Search from "@/features/shared/components/Search";
+import type { RootState } from "@/store/store";
 import { statusStyles } from "@/types/status.types";
 import { MapPin } from "lucide-react";
-import { useEffect, useState, type ChangeEvent } from "react";
+import { useState, type ChangeEvent } from "react";
 import { LuCirclePlus } from "react-icons/lu";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-
-interface Job {
-  _id: string;
-  role: string;
-  company: string;
-  location: string;
-  status: string;
-  appliedAt: Date;
-}
 
 const Applications = () => {
   const [searchInput, setSearchInput] = useState<string>("");
-  const [jobs, setJobs] = useState<Job[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { jobs, loading, error } = useSelector(
+    (state: RootState) => state.jobs,
+  );
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const getJobsData = async () => {
-      try {
-        const data = await getJobs();
-        setJobs(data.jobs);
-      } catch (err: any) {
-        setError(err.message || "Failed to load jobs");
-      } finally {
-        setLoading(false);
-      }
-    };
+  if (loading) return <Loading />;
+  if (error) return <Error message={error} />;
 
-    getJobsData();
-  }, []);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  const filteredJobs = jobs.filter(
+    (job) =>
+      job.role.toLowerCase().includes(searchInput.toLowerCase()) ||
+      job.company.toLowerCase().includes(searchInput.toLowerCase()),
+  );
 
   const onSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
@@ -52,7 +37,7 @@ const Applications = () => {
         <div>
           <h1 className="text-3xl font-bold text-text-primary">Applications</h1>
           <p className="mt-1 text-sm text-text-muted">
-            Manage and track your 42 active applications.
+            Manage and track your {jobs.length} active applications.
           </p>
         </div>
         <Link to={"/dashboard/add-job"}>
@@ -75,10 +60,10 @@ const Applications = () => {
           <p className="text-left">Applied Date</p>
         </div>
 
-        {jobs.length === 0 ? (
+        {filteredJobs.length === 0 ? (
           <p className="p-4 text-text-secondary">No applications yet.</p>
         ) : (
-          jobs.map((job) => (
+          filteredJobs.map((job) => (
             <div
               key={job._id}
               onClick={() => navigate(`/dashboard/applications/${job._id}`)}

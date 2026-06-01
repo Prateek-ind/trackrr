@@ -1,4 +1,4 @@
-import { deleteJobById, getJobById } from "@/api/job";
+import { deleteJobById, getJobById, getJobs } from "@/api/job";
 import StatusPill from "@/features/Dashboard/components/StatusPill";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,26 +9,18 @@ import {
   Calendar,
   StickyNote,
   Paperclip,
-  ArrowLeft,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import SectionHeader from "@/features/Add Job/components/SectionHeader";
 import BackButton from "@/features/shared/components/BackButton";
 import { statusStyles } from "@/types/status.types";
-
-interface Job {
-  _id: string;
-  role: string;
-  company: string;
-  location: string;
-  status: string;
-  appliedAt: Date;
-  source: string;
-  priority: "low" | "medium" | "high";
-  notes: string;
-  attachments: string[];
-}
+import PDFViewer from "@/features/Add Job/components/PDFViewer";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import Loading from "@/features/shared/components/Loading";
+import Error from "@/features/shared/components/Error";
+import { useDispatch } from "react-redux";
+import { computeStats, setJobs } from "@/store/jobs.slice";
 
 const priorityStyles = {
   low: "text-status-applied bg-status-applied/15",
@@ -61,43 +53,54 @@ const DetailRow = ({
 const JobDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [job, setJob] = useState<Job | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    const fetchJob = async () => {
-      try {
-        const data = await getJobById(id!);
-        setJob(data);
-      } catch (err: any) {
-        setError(err.message || "Failed to load job");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchJob();
-  }, [id]);
+  const [preview, setPreview] = useState<{
+    url: string;
+    name: string;
+    publicId: string;
+  } | null>(null);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
-  if (!job) return <p>Job not found.</p>;
+  const {
+    data: job,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["job", id],
+    queryFn: async () => {
+      const data = await getJobById(id!);
+      return data;
+    },
+    enabled: !!id,
+  });
 
-  const handleDelete = async () => {
-    try {
-      if (!id) return;
+  const mutation = useMutation({
+    mutationFn: async () => {
       await deleteJobById(id!);
+    },
+    onSuccess: async () => {
+      const data = await getJobs();
+      dispatch(setJobs(data.jobs));
+      dispatch(computeStats());
+      queryClient.invalidateQueries({ queryKey: ["jobs"] });
+      queryClient.removeQueries({ queryKey: ["job", id] });
       navigate("/dashboard/applications");
-    } catch (error: any) {
-      throw new Error(error.message, {cause: error});
-    }
-  };
+    },
+    onError: (error) => {
+      console.error("Delete failed:", error.message);
+    },
+  });
+
+  if (isLoading) return <Loading />;
+  if (error) return <Error message={error.message} />;
+  if (!job) return <p>Job not found.</p>;
 
   return (
     <section className="w-full flex-1 p-8 pl-24 bg-white dark:bg-dark-900 min-h-screen">
       <BackButton />
       {/* Header */}
-      <div className="mb-8 flex items-center justify-between">
+      <div className="max-w-4xl mb-8 flex items-center justify-between">
         <div className="flex items-center gap-6">
           <div>
             <h1 className="text-3xl font-bold text-text-primary">{job.role}</h1>
@@ -119,9 +122,9 @@ const JobDetail = () => {
           <Button
             variant="outline"
             className="px-6 py-2 border-dark-border text-text-primary hover:bg-dark-700 cursor-pointer"
-            onClick={handleDelete}
+            onClick={() => mutation.mutate()}
           >
-            Delete
+            {mutation.isPending ? "Deleting...": "Delete"}
           </Button>
         </div>
       </div>
@@ -206,13 +209,39 @@ const JobDetail = () => {
             </div>
           ) : (
             job.attachments.map((file, i) => (
-              <div key={i} className="flex items-center gap-3">
+              <div
+                key={i}
+                className="flex items-center gap-3"
+                onClick={() =>
+                  setPreview({
+                    url: file.url,
+                    name: file.name,
+                    publicId: file.publicId, // ← pass publicId here
+                  })
+                }
+              >
                 <div className="w-8 h-8 rounded-md flex items-center justify-center bg-brand-purple/10 text-brand-purple shrink-0">
                   <Paperclip size={16} />
                 </div>
-                <p className="text-sm text-text-primary">{file}</p>
+                <a
+                  href={file.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-text-primary hover:text-brand-purple transition-colors"
+                >
+                  {file.name}
+                </a>
               </div>
             ))
+          )}
+          {preview && (
+            <PDFViewer
+              key={preview.url}
+              url={preview.url}
+              name={preview.name}
+              publicId={preview.publicId}
+              onClose={() => setPreview(null)}
+            />
           )}
         </section>
       </div>
