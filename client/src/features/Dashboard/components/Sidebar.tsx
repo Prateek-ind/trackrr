@@ -30,10 +30,12 @@ const Sidebar = () => {
 
   return (
     <aside className="sticky top-0 flex h-screen w-64 flex-col border-r border-dark-border bg-white dark:bg-dark-800">
-      <div className="flex items-center justify-center gap-2   p-6">
-        <Logo />
-        <h2 className="text-2xl font-bold text-brand-purple">Trackrr</h2>
-      </div>
+      
+        <Link to={"/dashboard"} className="flex items-center justify-center gap-2 p-6">
+          <Logo />{" "}
+          <h2 className="text-2xl font-bold text-brand-purple">Trackrr</h2>
+        </Link>
+      
 
       <nav className="flex flex-1 flex-col gap-1 p-4">
         {sidebarOptions.map(({ name, path, icon: Icon }) => {

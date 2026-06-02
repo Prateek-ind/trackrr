@@ -19,8 +19,10 @@ import PDFViewer from "@/features/Add Job/components/PDFViewer";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Loading from "@/features/shared/components/Loading";
 import Error from "@/features/shared/components/Error";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { computeStats, setJobs } from "@/store/jobs.slice";
+import type { Job } from "@/types/job.types";
+import type { RootState } from "@/store/store";
 
 const priorityStyles = {
   low: "text-status-applied bg-status-applied/15",
@@ -55,6 +57,7 @@ const JobDetail = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
+  const jobs = useSelector((state: RootState) => state.jobs.jobs);
 
   const [preview, setPreview] = useState<{
     url: string;
@@ -79,16 +82,35 @@ const JobDetail = () => {
     mutationFn: async () => {
       await deleteJobById(id!);
     },
-    onSuccess: async () => {
+
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: ["jobs"] });
+
+      const previousJobs = queryClient.getQueryData(["jobs"]);
+
+      queryClient.setQueryData(["jobs"], (old: Job[]) =>
+        old.filter((j) => j._id !== id),
+      );
+
+      dispatch(setJobs(jobs.filter((j) => j._id !== id)));
+      dispatch(computeStats());
+
+      return { previousJobs };
+    },
+
+    onError: (error, _, context: any) => {
+      queryClient.setQueryData(["jobs"], context.previousJobs);
+      dispatch(setJobs(context?.previousJobs ?? []));
+      console.error("Delete failed:", error.message);
+    },
+
+    onSettled: async () => {
       const data = await getJobs();
       dispatch(setJobs(data.jobs));
       dispatch(computeStats());
       queryClient.invalidateQueries({ queryKey: ["jobs"] });
       queryClient.removeQueries({ queryKey: ["job", id] });
       navigate("/dashboard/applications");
-    },
-    onError: (error) => {
-      console.error("Delete failed:", error.message);
     },
   });
 
@@ -124,7 +146,7 @@ const JobDetail = () => {
             className="px-6 py-2 border-dark-border text-text-primary hover:bg-dark-700 cursor-pointer"
             onClick={() => mutation.mutate()}
           >
-            {mutation.isPending ? "Deleting...": "Delete"}
+            {mutation.isPending ? "Deleting..." : "Delete"}
           </Button>
         </div>
       </div>

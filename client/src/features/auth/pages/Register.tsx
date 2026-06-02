@@ -4,6 +4,7 @@ import { registerUser } from "../api/auth";
 import { Input } from "@/components/ui/input";
 import Logo from "@/features/shared/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import AuthNavbar from "../components/AuthNavbar";
 
 const Register = () => {
   const [registerData, setRegisterData] = useState({
@@ -38,11 +39,12 @@ const Register = () => {
       <div className="absolute left-1/2 top-0 h-96 w-96 -translate-x-1/2 rounded-full bg-brand-purple/20 blur-3xl" />
 
       {/* Theme toggle */}
-      <div className="absolute top-4 right-4">
+      {/* <div className="absolute top-4 right-4">
         <ThemeToggle />
-      </div>
+      </div> */}
+      <AuthNavbar/>
 
-      <div className="relative z-10 w-full max-w-md px-6">
+      <div className="relative z-10 w-full max-w-md px-6 mt-20">
         {/* Logo */}
         <div className="flex items-center justify-center gap-2 mb-8">
           <Logo />

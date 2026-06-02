@@ -8,7 +8,6 @@ export interface Attachment {
 }
 
 export interface JobFormData {
-  _id: string
   role: string
   company: string
   location: string

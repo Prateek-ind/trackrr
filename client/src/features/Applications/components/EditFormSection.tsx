@@ -1,7 +1,11 @@
 import { FileText, Building2, MapPin, Link2 } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import type { FormSectionProps, JobStatus } from "@/types/job.types";
+import type {
+  FormSectionProps,
+  JobFormData,
+  JobStatus,
+} from "@/types/job.types";
 import SectionHeader from "@/features/Add Job/components/SectionHeader";
 import FormField from "@/features/Add Job/components/FormField";
 import StatusSelect from "@/features/Add Job/components/StatusSelect";
@@ -13,7 +17,7 @@ const EditFormSection = ({
   formData,
   handleChange,
   setFormData,
-  onCancel
+  onCancel,
 }: FormSectionProps) => {
   return (
     <div className="max-w-4xl rounded-2xl border border-dark-border bg-dark-800 shadow-lg p-6 space-y-10">

@@ -2,17 +2,17 @@ import React, { useState, type ChangeEvent } from "react";
 import FormSection from "../components/FormSection";
 import { useNavigate } from "react-router-dom";
 import { createJob, getJobs } from "@/api/job";
-import type { JobFormData } from "@/types/job.types";
+import type { Job, JobFormData } from "@/types/job.types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useDispatch } from "react-redux";
-import type { AppDispatch } from "@/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "@/store/store";
 import { computeStats, setJobs } from "@/store/jobs.slice";
-import Error from "@/features/shared/components/Error";
 
 const AddJob = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const dispatch = useDispatch<AppDispatch>();
+  const { jobs } = useSelector((state: RootState) => state.jobs);
 
   const [formData, setFormData] = useState<JobFormData>({
     role: "",
@@ -28,17 +28,37 @@ const AddJob = () => {
 
   const mutation = useMutation({
     mutationFn: (formData: JobFormData) => createJob(formData),
-    onSuccess: async () => {
+
+    onMutate: async (newJobData: JobFormData) => {
+      await queryClient.cancelQueries({ queryKey: ["jobs"] });
+
+      const previousJobs = queryClient.getQueryData(["jobs"]);
+
+      const tempJob = { ...newJobData, _id: "temp-" + Date.now() };
+
+      queryClient.setQueryData(["jobs"], (old: Job[]) => [...old, tempJob]);
+
+      dispatch(setJobs([...jobs, tempJob]));
+      dispatch(computeStats());
+
+      return { previousJobs };
+    },
+
+    onError: (error, _, context: any) => {
+      queryClient.setQueryData(["jobs"], context.previosJobs);
+      dispatch(setJobs(context.previousJobs ?? []));
+      dispatch(computeStats());
+
+      console.error("Failed to create job: ", error.message);
+    },
+
+    onSettled: async () => {
       await queryClient.invalidateQueries({ queryKey: ["jobs"] });
       const data = await getJobs();
       dispatch(setJobs(data.jobs));
       dispatch(computeStats());
 
       navigate("/dashboard/applications");
-    },
-    onError: (error) => {
-      if (error instanceof Error)
-        console.error("Failed to create job:", error.message);
     },
   });
 

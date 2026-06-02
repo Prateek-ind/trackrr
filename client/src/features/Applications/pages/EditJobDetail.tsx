@@ -1,8 +1,8 @@
-import React, { useEffect, useState, type ChangeEvent } from "react";
+import React, { useState, type ChangeEvent } from "react";
 
 import { useNavigate, useParams } from "react-router-dom";
 import { getJobs, updateJob } from "@/api/job";
-import type { JobFormData } from "@/types/job.types";
+import type { Job, JobFormData } from "@/types/job.types";
 import EditFormSection from "../components/EditFormSection";
 import BackButton from "@/features/shared/components/BackButton";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -18,10 +18,8 @@ const EditJobDetail = () => {
   const { id } = useParams();
 
   const job = jobs.find((j) => j?._id === id);
-  console.log(jobs);
 
   const [formData, setFormData] = useState<JobFormData>({
-    _id: job?._id || "",
     role: job?.role || "",
     company: job?.company || "",
     location: job?.location || "",
@@ -34,21 +32,52 @@ const EditJobDetail = () => {
   });
 
   const mutation = useMutation({
-    mutationFn: (formData: JobFormData) => {
+    mutationFn: (data: JobFormData) => {
       if (!job) throw new Error("Job not found");
-      return updateJob(job._id, formData);
+      return updateJob(job._id, data);
     },
-    onSuccess: async () => {
+    onMutate: async (updatedFormData: JobFormData) => {
+      await queryClient.cancelQueries({ queryKey: ["jobs"] });
+      await queryClient.cancelQueries({ queryKey: ["job", id] });
+
+      const previousJobs = queryClient.getQueryData(["jobs"]);
+      const previousJob = queryClient.getQueryData(["job", id]);
+
+      queryClient.setQueryData(["jobs"], (old: Job[]) =>
+        old.map((j: Job) => (j._id === id ? { ...j, ...updatedFormData } : j)),
+      );
+
+      queryClient.setQueryData(["job", id], (old: Job) => ({
+        ...old,
+        ...updatedFormData,
+      }));
+
+      dispatch(
+        setJobs(
+          jobs.map((j: Job) =>
+            j._id === id ? { ...j, ...updatedFormData } : j,
+          ),
+        ),
+      );
+      dispatch(computeStats());
+
+      return { previousJobs, previousJob };
+    },
+
+    onError: (error, _, context) => {
+      queryClient.setQueryData(["jobs"], context?.previousJobs);
+      queryClient.setQueryData(["job"], context?.previousJob);
+      console.error("Update failed", error.message);
+    },
+
+    onSettled: async () => {
       await queryClient.invalidateQueries({ queryKey: ["jobs"] });
+      await queryClient.invalidateQueries({ queryKey: ["job", id] });
       const data = await getJobs();
       dispatch(setJobs(data.jobs));
       dispatch(computeStats());
 
       navigate("/dashboard/applications");
-    },
-    onError: (error) => {
-      if (error instanceof Error)
-        console.error("Failed to create job:", error.message);
     },
   });
 
@@ -59,7 +88,7 @@ const EditJobDetail = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     mutation.mutate(formData);
   };
