@@ -10,6 +10,8 @@ import {
   Settings,
   LogOut,
 } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { logoutUser } from "@/features/auth/api/auth";
 
 const sidebarOptions = [
   { name: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
@@ -27,15 +29,17 @@ const sidebarOptions = [
 
 const Sidebar = () => {
   const { pathname } = useLocation();
+  const { logout } = useAuth();
 
   return (
     <aside className="sticky top-0 flex h-screen w-64 flex-col border-r border-dark-border bg-white dark:bg-dark-800">
-      
-        <Link to={"/dashboard"} className="flex items-center justify-center gap-2 p-6">
-          <Logo />{" "}
-          <h2 className="text-2xl font-bold text-brand-purple">Trackrr</h2>
-        </Link>
-      
+      <Link
+        to={"/dashboard"}
+        className="flex items-center justify-center gap-2 p-6"
+      >
+        <Logo />{" "}
+        <h2 className="text-2xl font-bold text-brand-purple">Trackrr</h2>
+      </Link>
 
       <nav className="flex flex-1 flex-col gap-1 p-4">
         {sidebarOptions.map(({ name, path, icon: Icon }) => {
@@ -58,8 +62,11 @@ const Sidebar = () => {
         })}
       </nav>
 
-      <div className="border-t border-dark-border p-4">
-        <button className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-text-secondary transition-all hover:bg-dark-700 hover:text-status-rejected">
+      <div className="border-t border-dark-border p-4 cursor-pointer">
+        <button
+          className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-text-secondary transition-all hover:bg-dark-700 hover:text-status-rejected"
+          onClick={logout}
+        >
           <LogOut size={18} />
           Logout
         </button>
