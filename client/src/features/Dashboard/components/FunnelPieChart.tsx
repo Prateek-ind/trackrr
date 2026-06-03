@@ -9,7 +9,13 @@ import {
   Legend,
 } from "recharts";
 
-const COLORS = ["#6c63ff", "#4fc3f7", "#3A3A52"];
+const STATUS_COLORS: Record<string, string> = {
+  Applied: "#6c63ff",
+  Interviews: "#4fc3f7",
+  Assessments: "#f59e0b",
+  Offers: "#22c55e",
+  Rejections: "#ef4444",
+};
 
 const FunnelPieChart = () => {
   const { stats } = useSelector((state: RootState) => state.jobs);
@@ -42,8 +48,8 @@ const FunnelPieChart = () => {
             dataKey="value"
             paddingAngle={3}
           >
-            {funnelData.map((_, index) => (
-              <Cell key={index} fill={COLORS[index]} />
+            {funnelData.map((entry) => (
+              <Cell key={entry.name} fill={STATUS_COLORS[entry.name]} />
             ))}
           </Pie>
           <Tooltip formatter={(value) => `${value}%`} />

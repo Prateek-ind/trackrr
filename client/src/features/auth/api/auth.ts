@@ -15,7 +15,8 @@ export const loginUser = async(loginData: LoginAuthType)=>{
         })
 
         if(!res.ok){
-            throw new Error("Login failed")
+            const error = await res.json()
+            throw new Error(error.message || "Login failed")
         }
 
         const data = await res.json()
@@ -23,8 +24,8 @@ export const loginUser = async(loginData: LoginAuthType)=>{
         return data
 
     } catch (error) {
-    console.log(error)
-    throw new Error("Something went wrong",{
+    if(error instanceof Error)
+    throw new Error(error.message || "Something went wrong",{
         cause: error
     })
   }
@@ -41,7 +42,8 @@ export const registerUser = async(registerData: RegisterAuthType)=>{
             credentials: "include"
         })
         if(!res.ok){
-            throw new Error("Registration failed")
+            const error = await res.json()
+            throw new Error(error.message || "Registration failed")
         }
 
         const data = await res.json()

@@ -1,6 +1,7 @@
 export const statusStyles = {
   applied: "bg-status-applied/15 text-status-applied",
   interview: "bg-status-interview/15 text-status-interview",
+  assessment: "bg-status-assessment/15 text-status-assessment",
   offer: "bg-status-offer/15 text-status-offer",
   rejected: "bg-status-rejected/15 text-status-rejected",
 };

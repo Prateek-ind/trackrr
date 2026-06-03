@@ -36,7 +36,7 @@ const AddJob = () => {
 
       const tempJob = { ...newJobData, _id: "temp-" + Date.now() };
 
-      queryClient.setQueryData(["jobs"], (old: Job[]) => [...old, tempJob]);
+      queryClient.setQueryData(["jobs"], (old: Job[]=[]) => [...old, tempJob]);
 
       dispatch(setJobs([...jobs, tempJob]));
       dispatch(computeStats());
@@ -45,9 +45,11 @@ const AddJob = () => {
     },
 
     onError: (error, _, context: any) => {
-      queryClient.setQueryData(["jobs"], context.previosJobs);
-      dispatch(setJobs(context.previousJobs ?? []));
-      dispatch(computeStats());
+      if (context?.previousJobs) {
+        queryClient.setQueryData(["jobs"], context.previousJobs);
+        dispatch(setJobs(context.previousJobs ?? []));
+        dispatch(computeStats());
+      }
 
       console.error("Failed to create job: ", error.message);
     },

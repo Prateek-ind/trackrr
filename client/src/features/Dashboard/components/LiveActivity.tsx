@@ -53,7 +53,7 @@ const LiveActivity = () => (
     <div className="w-full mb-6 border-b border-dark-border p-4 bg-dark-700">
       <h2 className="text-2xl font-bold text-text-primary">Live Activity</h2>
       <p className="text-sm font-semibold text-text-muted">
-        Real-time search updates.
+        Real-time updates.
       </p>
     </div>
     <div className="flex flex-col gap-4 p-4">
