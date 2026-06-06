@@ -1,4 +1,6 @@
 import { getActivities } from "@/api/activities";
+import Error from "@/features/shared/components/Error";
+import Loading from "@/features/shared/components/Loading";
 import type { JobStatus } from "@/types/job.types";
 import { useQuery } from "@tanstack/react-query";
 import { type JSX } from "react";
@@ -37,15 +39,13 @@ interface Activity {
 }
 
 const LiveActivity = () => {
-  const { data } = useQuery({
+  const { data, isPending, isError, error } = useQuery({
     queryKey: ["activity"],
     queryFn: getActivities,
     refetchInterval: 30000, // auto refetch every 30 seconds
   });
 
   const activities = data?.activities ?? [];
-
-  console.log(activities);
 
   return (
     <div className="w-full h-full border rounded-md shadow-md bg-white dark:bg-dark-800">
@@ -55,32 +55,37 @@ const LiveActivity = () => {
           Real-time updates.
         </p>
       </div>
-      <div className="flex flex-col gap-4 p-4 h-56 overflow-y-auto scrollbar-thumb-current">
-        {activities.length === 0 ? (
-          <p>No Activites</p>
-        ) : (
-          activities.map((activity: Activity) => (
-            <div key={activity.jobId} className="flex items-start gap-3">
-              <div
-                className={`w-8 h-8 rounded-md flex items-center justify-center shrink-0 ${colorMap[activity.type]}`}
-              >
-                {iconMap[activity.type]}
-              </div>
-              <div>
-                <p className="text-sm font-medium text-text-primary">
-                  {activity.message}
-                </p>
-                <div className="flex items-center gap-2 text-text-muted mt-2">
-                  <FaClock />
-                  <p className="text-xs text-text-muted mt-0.5">
-                    {new Date(activity.createdAt).toLocaleString()}
+      {isPending ? (
+        <Loading />
+      ) : (
+        <div className="flex flex-col gap-4 p-4 h-56 overflow-y-auto scrollbar-thumb-current">
+          {activities.length === 0 ? (
+            <p>No Activites</p>
+          ) : (
+            activities.map((activity: Activity) => (
+              <div key={activity.jobId} className="flex items-start gap-3">
+                <div
+                  className={`w-8 h-8 rounded-md flex items-center justify-center shrink-0 ${colorMap[activity.type]}`}
+                >
+                  {isError && <Error message={error.message} />}
+                  {iconMap[activity.type]}
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-text-primary">
+                    {activity.message}
                   </p>
+                  <div className="flex items-center gap-2 text-text-muted mt-2">
+                    <FaClock />
+                    <p className="text-xs text-text-muted mt-0.5">
+                      {new Date(activity.createdAt).toLocaleString()}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))
-        )}
-      </div>
+            ))
+          )}
+        </div>
+      )}
       <button className="w-full py-4 text-center text-sm text-text-muted font-medium mt-6 pt-4 border-t border-dark-border hover:text-text-primary transition-colors">
         View Full History
       </button>

@@ -5,7 +5,7 @@ import { statusStyles } from "@/types/status.types";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/store/store";
 import type { Job, JobStatus } from "@/types/job.types";
-import StatusSelect from "@/features/Add Job/components/StatusSelect";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Loading from "@/features/shared/components/Loading";
 import Error from "@/features/shared/components/Error";
@@ -33,8 +33,15 @@ const RecentApplications = () => {
       });
     },
 
-    onMutate: async (id, newStatus) => {
+    onMutate: async ({
+      id,
+      newStatus,
+    }: {
+      id: string;
+      newStatus: JobStatus;
+    }) => {
       await queryClient.invalidateQueries({ queryKey: ["jobs"] });
+      await queryClient.invalidateQueries({ queryKey: ["activity"] });
 
       const previous = queryClient.getQueryData(["jobs"]);
 
@@ -50,18 +57,19 @@ const RecentApplications = () => {
       return { previous };
     },
 
-    onError: (error, __, context) => {
+    onError: ({ error, __, context }) => {
       if (context?.previous) {
         queryClient.setQueryData(["jobs"], context.previous);
-        dispatch(setJobs(context.previous ?? []));
+        dispatch(setJobs(context?.previous ?? []));
         dispatch(computeStats());
       }
-
-      console.error("Failed to create job: ", error.message);
+      if (error instanceof Error)
+        console.error("Failed to create job: ", error);
     },
 
     onSettled: async () => {
       await queryClient.invalidateQueries({ queryKey: ["jobs"] });
+      await queryClient.invalidateQueries({ queryKey: ["activity"] });
       const data = await getJobs();
       dispatch(setJobs(data.jobs));
       dispatch(computeStats());

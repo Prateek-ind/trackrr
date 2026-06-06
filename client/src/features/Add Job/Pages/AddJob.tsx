@@ -31,7 +31,7 @@ const AddJob = () => {
 
     onMutate: async (newJobData: JobFormData) => {
       await queryClient.cancelQueries({ queryKey: ["jobs"] });
-      await queryClient.cancelQueries({ queryKey: ["activities"] });
+      await queryClient.cancelQueries({ queryKey: ["activity"] });
 
       const previousJobs = queryClient.getQueryData(["jobs"]);
 
@@ -60,7 +60,7 @@ const AddJob = () => {
 
     onSettled: async () => {
       await queryClient.invalidateQueries({ queryKey: ["jobs"] });
-      await queryClient.invalidateQueries({ queryKey: ["activites"] });
+      await queryClient.invalidateQueries({ queryKey: ["activity"] });
       const data = await getJobs();
       dispatch(setJobs(data.jobs));
       dispatch(computeStats());

@@ -85,7 +85,7 @@ const JobDetail = () => {
 
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ["jobs"] });
-      await queryClient.cancelQueries({ queryKey: ["activities"] });
+      await queryClient.cancelQueries({ queryKey: ["activity"] });
 
       const previousJobs = queryClient.getQueryData(["jobs"]);
 
@@ -110,7 +110,7 @@ const JobDetail = () => {
       dispatch(setJobs(data.jobs));
       dispatch(computeStats());
       queryClient.invalidateQueries({ queryKey: ["jobs"] });
-      queryClient.invalidateQueries({ queryKey: ["activities"] });
+      queryClient.invalidateQueries({ queryKey: ["activity"] });
       queryClient.removeQueries({ queryKey: ["job", id] });
       navigate("/dashboard/applications");
     },

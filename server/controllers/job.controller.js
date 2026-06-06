@@ -9,7 +9,7 @@ const createJob = async (req, res) => {
 
     await Activity.create({
       user: req.user.id,
-      message: `You create a new Job for ${job.company} for ${job.role} role`,
+      message: `You created a new Job for ${job.company} for ${job.role} role`,
       type: "applied",
       jobId: job._id,
     });

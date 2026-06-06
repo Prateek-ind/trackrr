@@ -10,23 +10,30 @@ import { useState, type ChangeEvent } from "react";
 import { LuCirclePlus } from "react-icons/lu";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import StatusFilter from "../components/StatusFilter";
+import type { JobStatus } from "@/types/job.types";
 
 const Applications = () => {
   const [searchInput, setSearchInput] = useState<string>("");
   const { jobs, loading, error } = useSelector(
     (state: RootState) => state.jobs,
   );
+  const [statusFilter, setStatusFilter] = useState<JobStatus | "all">("all");
   const navigate = useNavigate();
 
   if (loading) return <Loading />;
   if (error) return <Error message={error} />;
 
-  const filteredJobs = jobs.filter(
+  let filteredJobs = jobs.filter(
     (job) =>
       job.role.toLowerCase().includes(searchInput.toLowerCase()) ||
       job.company.toLowerCase().includes(searchInput.toLowerCase()),
   );
-
+  if (statusFilter === "all") {
+    filteredJobs = jobs;
+  } else {
+    filteredJobs = jobs.filter((job) => job.status === statusFilter);
+  }
   const onSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
   };
@@ -47,9 +54,12 @@ const Applications = () => {
         </Link>
       </div>
 
-      <div className="p-4 border bg-dark-800 border-dark-border rounded-md shadow-md mb-6">
+      <div className="p-4 flex items-center justify-between border bg-dark-800 border-dark-border rounded-md shadow-md mb-6">
         <Search searchInput={searchInput} onSearchInput={onSearchInput} />
-        <div></div>
+        <div className="flex items-center gap-4">
+          <p className="w-full text-xs text-text-secondary">Filter by status: </p>
+          <StatusFilter value={statusFilter} onChange={setStatusFilter} />
+        </div>
       </div>
 
       <div className=" border border-dark-border bg-dark-800 rounded-md shadow-md mb-6">

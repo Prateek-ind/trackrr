@@ -7,11 +7,9 @@ import {
   BarChart2,
   LucideFileBadge,
   UserRound,
-  Settings,
   LogOut,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
-import { logoutUser } from "@/api/auth";
 
 const sidebarOptions = [
   { name: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
@@ -24,7 +22,6 @@ const sidebarOptions = [
   { name: "Analytics", path: "/dashboard/analytics", icon: BarChart2 },
   { name: "Resume Tailor", path: "/dashboard/resume", icon: LucideFileBadge },
   { name: "Profile", path: "/dashboard/profile", icon: UserRound },
-  { name: "Settings", path: "/dashboard/settings", icon: Settings },
 ];
 
 const Sidebar = () => {
