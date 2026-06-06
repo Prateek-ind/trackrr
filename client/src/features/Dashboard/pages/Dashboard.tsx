@@ -6,44 +6,10 @@ import { Link } from "react-router-dom";
 import LiveActivity from "../components/LiveActivity";
 import WeeklyBarChart from "../components/WeeklyBarChart";
 import FunnelPieChart from "../components/FunnelPieChart";
-import { useDispatch } from "react-redux";
-import { useQuery } from "@tanstack/react-query";
-import { getJobs } from "@/api/job";
-import { useEffect } from "react";
-import { computeStats, setJobs } from "@/store/jobs.slice";
-import Loading from "@/features/shared/components/Loading";
-import type { AppDispatch } from "@/store/store";
-import Error from "@/features/shared/components/Error";
 import { useAuth } from "@/hooks/useAuth";
 
 const Dashboard = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const {user} = useAuth()
-  const {
-    data: jobs,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ["jobs"],
-    queryFn: async () => {
-      const data = await getJobs();
-      return data.jobs;
-    },
-  });
-
-  useEffect(() => {
-    if (jobs) {
-      dispatch(setJobs(jobs));
-      dispatch(computeStats());
-      console.log(jobs);
-    }
-  }, [jobs, dispatch]);
-
-  if (isLoading) return <Loading />;
-  if (error)
-    return (
-     <Error message={error.message ?? "Something went wrong"} />
-    );
+  const { user } = useAuth();
 
   return (
     <main className="flex-1 p-8 bg-white dark:bg-dark-900 min-h-screen">

@@ -1,17 +1,17 @@
 import { Input } from "@/components/ui/input";
-import { SearchX } from "lucide-react";
-import type { ChangeEvent } from "react";
 
+import { type ChangeEvent } from "react";
+import { IoSearchCircle } from "react-icons/io5";
 
 interface SearchProps {
-  searchInput: string ;
+  searchInput: string;
   onSearchInput: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Search = ({ searchInput, onSearchInput }: SearchProps) => {
   return (
     <div className="relative w-72">
-      <SearchX
+      <IoSearchCircle
         size={15}
         className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted"
       />

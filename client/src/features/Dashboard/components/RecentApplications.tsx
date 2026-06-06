@@ -3,8 +3,8 @@ import StatusPill from "./StatusPill";
 import { useNavigate } from "react-router-dom";
 import { statusStyles } from "@/types/status.types";
 import { useSelector } from "react-redux";
-import { type Job } from "@/store/jobs.slice";
 import type { RootState } from "@/store/store";
+import type { Job } from "@/types/job.types";
 
 const RecentApplications = () => {
   const { jobs, loading, error } = useSelector(
@@ -58,7 +58,7 @@ const RecentApplications = () => {
               {new Date(job.appliedAt).toDateString()}
             </p>
             <StatusPill value={job.status} variants={statusStyles} />
-            <p>{job.action}</p>
+            {/* <p>{job.action}</p> */}
           </div>
         ))
       )}
