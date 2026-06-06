@@ -6,7 +6,7 @@ interface PillProps {
 const Pill = ({ value, variants }: PillProps) => {
   return (
     <div
-      className={`mt-1 text-sm px-3 py-0.5 rounded-full font-medium text-center my-auto ${
+      className={`rounded-full px-6 py-1 text-sm font-medium w-fit h-8 ${
         variants[value] || "bg-gray-200 text-gray-700"
       }`}
     >

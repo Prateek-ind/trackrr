@@ -1,4 +1,5 @@
 const Job = require("../models/job.model");
+const Activity = require("../models/activity.model");
 
 const createJob = async (req, res) => {
   const data = req.body;
@@ -6,6 +7,12 @@ const createJob = async (req, res) => {
   try {
     const job = await Job.create({ ...data, user: req.user.id });
 
+    await Activity.create({
+      user: req.user.id,
+      message: `You create a new Job for ${job.company} for ${job.role} role`,
+      type: "applied",
+      jobId: job._id,
+    });
     res.status(201).json({
       message: "Job created successfully",
       job,
@@ -78,6 +85,22 @@ const updateJob = async (req, res) => {
       runValidators: true,
     });
 
+    if (req.body.status && req.body.status !== existingJob.status) {
+      await Activity.create({
+        user: req.user.id,
+        message: `Status updated to ${req.body.status} at ${existingJob.company}`,
+        type: req.body.status,
+        jobId: existingJob._id,
+      });
+    } else {
+      const activity = await Activity.create({
+        user: req.user.id,
+        message: `You updated a Job for ${updatedJob.company} for ${updatedJob.role} role`,
+        type: "updated",
+        jobId: existingJob._id,
+      });
+    }
+
     res.status(200).json({
       message: "Job updated successfully",
       job: updatedJob,
@@ -106,8 +129,15 @@ const deleteJob = async (req, res) => {
 
     const deletedJob = await Job.findByIdAndDelete(id);
 
+    await Activity.create({
+      user: req.user.id,
+      message: `Removed application for ${job.role} at ${job.company}`,
+      type: "deleted",
+    });
+
     res.status(200).json({
       message: "Job deleted successfully",
+      activity,
     });
   } catch (error) {
     res.status(500).json({

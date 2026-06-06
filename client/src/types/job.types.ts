@@ -1,4 +1,9 @@
-export type JobStatus = "applied" | "interview" | "assessment" | "offer" | "rejected"
+export type JobStatus =
+  | "applied"
+  | "interview"
+  | "assessment"
+  | "offer"
+  | "rejected";
 export type JobPriority = "low" | "medium" | "high"
 
 export interface Attachment {

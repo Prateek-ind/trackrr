@@ -78,13 +78,14 @@ const JobDetail = () => {
     enabled: !!id,
   });
 
-  const mutation = useMutation({
+  const deleteMutation = useMutation({
     mutationFn: async () => {
       await deleteJobById(id!);
     },
 
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ["jobs"] });
+      await queryClient.cancelQueries({ queryKey: ["activities"] });
 
       const previousJobs = queryClient.getQueryData(["jobs"]);
 
@@ -109,6 +110,7 @@ const JobDetail = () => {
       dispatch(setJobs(data.jobs));
       dispatch(computeStats());
       queryClient.invalidateQueries({ queryKey: ["jobs"] });
+      queryClient.invalidateQueries({ queryKey: ["activities"] });
       queryClient.removeQueries({ queryKey: ["job", id] });
       navigate("/dashboard/applications");
     },
@@ -144,9 +146,9 @@ const JobDetail = () => {
           <Button
             variant="outline"
             className="px-6 py-2 border-dark-border text-text-primary hover:bg-dark-700 cursor-pointer"
-            onClick={() => mutation.mutate()}
+            onClick={() => deleteMutation.mutate()}
           >
-            {mutation.isPending ? "Deleting..." : "Delete"}
+            {deleteMutation.isPending ? "Deleting..." : "Delete"}
           </Button>
         </div>
       </div>
