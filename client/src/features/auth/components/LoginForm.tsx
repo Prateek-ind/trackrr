@@ -28,11 +28,11 @@ const LoginForm = () => {
       setError(null);
       await login(loginData);
       navigate("/dashboard");
-    } catch (error: any) {
-      if (error instanceof Error)
-        setIsLoading(false)
+    } catch (error) {
+      if (error instanceof Error) {
+        setIsLoading(false);
         setError(error.message || "Login failed, try again.");
-      throw new Error(error.message, { cause: error });
+      }
     }
   };
   return (

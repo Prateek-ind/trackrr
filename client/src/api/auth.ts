@@ -1,6 +1,17 @@
-import  { type LoginAuthType, type RegisterAuthType } from "../types/auth.types"
+import  { type LoginAuthType, type RegisterAuthType } from "../features/auth/types/auth.types"
 
 const url = import.meta.env.VITE_BACKEND_URL
+
+export const restoreSession = async()=>{
+    const res = await fetch(`${url}/api/auth/restoreSession`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  if (!res.ok) throw new Error("Not authenticated");
+  const data = await res.json();
+  return data
+}
 
 export const loginUser = async(loginData: LoginAuthType)=>{
     try {

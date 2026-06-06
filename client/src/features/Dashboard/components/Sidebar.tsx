@@ -11,7 +11,7 @@ import {
   LogOut,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
-import { logoutUser } from "@/features/auth/api/auth";
+import { logoutUser } from "@/api/auth";
 
 const sidebarOptions = [
   { name: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
@@ -62,9 +62,9 @@ const Sidebar = () => {
         })}
       </nav>
 
-      <div className="border-t border-dark-border p-4 cursor-pointer">
+      <div className="border-t border-dark-border p-4 ">
         <button
-          className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-text-secondary transition-all hover:bg-dark-700 hover:text-status-rejected"
+          className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-text-secondary transition-all hover:bg-dark-700 hover:text-status-rejected cursor-pointer"
           onClick={logout}
         >
           <LogOut size={18} />

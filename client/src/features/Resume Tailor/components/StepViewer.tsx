@@ -23,7 +23,7 @@ const StepViewer = ({
   completedSteps,
 }: StepViewerProps) => {
   return (
-    <div className="flex items-center w-full mb-8">
+    <div className="w-full flex items-center justify-center mb-8 ">
       {steps.map((step, i) => {
         const isCompleted = completedSteps.includes(step.number);
         const isCurrent = currentStep === step.number;

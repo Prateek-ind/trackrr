@@ -4,7 +4,7 @@ import Dashboard from "../../features/Dashboard/pages/Dashboard";
 import Login from "../../features/auth/pages/Login";
 import Register from "../../features/auth/pages/Register";
 import Homepage from "../../features/shared/pages/Homepage";
-import ProtectedRoute from "../../features/shared/components/ProtectedRoute";
+import ProtectedRoute from "../../features/auth/components/ProtectedRoute";
 import DashboardLayout from "../../layouts/DashboardLayout";
 import Applications from "../../features/Applications/pages/Applications";
 

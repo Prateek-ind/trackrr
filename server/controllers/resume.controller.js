@@ -33,6 +33,8 @@ const analyseResume = async (req, res) => {
 
 Compare this resume against the job description and identify the skill/experience gaps.
 
+
+
 Job Title: ${jobTitle}
 Company: ${company}
 
@@ -121,12 +123,41 @@ const gapRoadmap = async (req, res) => {
 };
 
 const generateLatex = async (req, res) => {
-  const { resumeText, jobTitle, company, jobDescription, omittedSkills } =
-    req.body;
+  const {
+    resumeText,
+    jobTitle,
+    company,
+    jobDescription,
+    omittedSkills,
+    instructionsNote,
+  } = req.body;
 
   if (!resumeText || !jobTitle || !company || !jobDescription) {
     return res.status(400).json({ message: "All fields are required." });
   }
+
+  const instructionsText = instructionsNote
+    ? `MANDATORY USER INSTRUCTIONS — follow these exactly, they override everything else:
+${instructionsNote}
+
+RULES FOR HANDLING INSTRUCTIONS:
+- Remove experience/section → delete it entirely, no placeholder text, no mention of removal
+- Add a link → insert it exactly as given in the correct place
+- Add a project → include it with full formatting matching other projects
+- Emphasize a skill → mention it more prominently in summary and relevant bullets
+- Change a date → update it exactly as specified
+- Add a certification → include it in a new Certifications section
+- Rewrite summary → rewrite it completely based on the instruction
+- Change job title → update it everywhere it appears
+- Add achievement → insert it as a bullet point in the relevant section
+- Remove a skill → delete it from skills section entirely
+- Change location → update it in the header
+- Add portfolio/GitHub/LinkedIn → insert it in the header contact line
+- Any other instruction → use best judgment to implement it cleanly and professionally
+- NEVER add comments, notes, or annotations about what was changed
+- NEVER leave placeholder text
+- Changes must look natural as if they were always part of the CV`
+    : "";
 
   const omitText = omittedSkills?.length
     ? `Do NOT include or mention these skills: ${omittedSkills.join(", ")}`
@@ -142,7 +173,10 @@ const generateLatex = async (req, res) => {
     ? "This resume was exported from LinkedIn. Extract only professional content — ignore connection counts, follower numbers, endorsement counts, and LinkedIn metadata."
     : "";
 
-  const prompt = `Please act as a world-class ATS resume auditor.
+  const prompt = ` ${instructionsNote}
+  Please act as a world-class ATS resume auditor.
+
+  ${instructionsText}
 
 Job Title: ${jobTitle}
 Company: ${company}

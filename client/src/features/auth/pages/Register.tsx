@@ -1,6 +1,6 @@
 import { useState, type ChangeEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { registerUser } from "../api/auth";
+import { registerUser } from "../../../api/auth";
 import { Input } from "@/components/ui/input";
 import Logo from "@/features/shared/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -42,7 +42,7 @@ const Register = () => {
       {/* <div className="absolute top-4 right-4">
         <ThemeToggle />
       </div> */}
-      <AuthNavbar/>
+      <AuthNavbar />
 
       <div className="relative z-10 w-full max-w-md px-6 mt-20">
         {/* Logo */}

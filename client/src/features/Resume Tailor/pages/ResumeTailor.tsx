@@ -1,11 +1,10 @@
-import React, { useState, type ChangeEvent, type FormEvent } from "react";
+import React, { useState, type ChangeEvent } from "react";
 import AnalysisForm from "../components/AnalysisForm";
-import { useSearchParams } from "react-router-dom";
+
 import { analyseResume, generateLatex } from "@/api/resume";
 import LatexOutput from "../components/LatexOutput";
 import GapAnalysis from "../components/GapAnalysis";
 import StepViewer from "../components/StepViewer";
-import JobDetail from "@/features/Applications/pages/JobDetail";
 
 interface Gap {
   skill: string;
@@ -17,6 +16,7 @@ interface FormData {
   jobTitle: string;
   company: string;
   jobDescription: string;
+  instructionsNote: string;
 }
 
 type Step = "input" | "gaps" | "latex";
@@ -31,6 +31,7 @@ const ResumeTailor = () => {
     jobTitle: "",
     company: "",
     jobDescription: "",
+    instructionsNote: "",
   });
 
   const [resumeText, setResumeText] = useState("");
@@ -54,7 +55,8 @@ const ResumeTailor = () => {
       !file ||
       !formData.jobTitle ||
       !formData.company ||
-      !formData.jobDescription
+      !formData.jobDescription ||
+      !formData.instructionsNote
     ) {
       setError("All fields are required.");
       return;
@@ -69,13 +71,14 @@ const ResumeTailor = () => {
       form.append("jobTitle", formData.jobTitle);
       form.append("company", formData.company);
       form.append("jobDescription", formData.jobDescription);
+      form.append("instructionsNote", formData.instructionsNote);
 
       const data = await analyseResume(form);
       setResumeText(data.resumeText);
       setGaps(data.gaps);
       goToStep("gaps");
-    } catch (error: any) {
-      setError(error.message);
+    } catch (error) {
+      if (error instanceof Error) setError(error.message);
     } finally {
       setLoading(false);
     }
@@ -90,16 +93,16 @@ const ResumeTailor = () => {
         resumeText,
         ...formData,
         omittedSkills,
+        instructionsNote: formData.instructionsNote,
       });
       setLatex(data.latex);
       goToStep("latex");
-    } catch (error: any) {
-      setError(error.message);
+    } catch (error) {
+      if (error instanceof Error) setError(error.message);
     } finally {
       setLoading(false);
     }
   };
-
 
   const goToStep = (next: Step) => {
     const current = stepNumber[step];
@@ -119,6 +122,7 @@ const ResumeTailor = () => {
       jobTitle: "",
       company: "",
       jobDescription: "",
+      instructionsNote: "",
     });
     setFile(null);
     setGaps([]);
@@ -136,7 +140,7 @@ const ResumeTailor = () => {
         </div>
       )}
       1
-      <div className="w-full mx-auto">
+      <div className="w-full h-fit border bg-white border-dark-border rounded-md p-4">
         <StepViewer
           onStepClick={handleStepClick}
           currentStep={stepNumber[step]}
@@ -145,7 +149,7 @@ const ResumeTailor = () => {
       </div>
       {step === "input" && (
         <>
-          <div className="space-y-4 mb-8">
+          <div className="mb-8">
             <h2 className="text-3xl font-bold text-text-primary dark:text-white">
               Step-1 Input
             </h2>
@@ -167,7 +171,7 @@ const ResumeTailor = () => {
       )}
       {step === "gaps" && (
         <>
-          <div className="space-y-4 mb-8">
+          <div className="mb-8">
             <h2 className="text-3xl font-bold text-text-primary dark:text-white">
               Step-2 Skill Gap Analysis
             </h2>
@@ -196,7 +200,7 @@ const ResumeTailor = () => {
       )}
       {step === "latex" && (
         <>
-          <div className="space-y-4 mb-8">
+          <div className="mb-8">
             <h2 className="text-3xl font-bold text-text-primary dark:text-white">
               Step-3 Your Tailored Resume
             </h2>

@@ -6,8 +6,6 @@ import React, { useRef } from "react";
 import { LuLoaderCircle } from "react-icons/lu";
 import { RiResetRightLine } from "react-icons/ri";
 
-
-
 interface AnalysisFormProps {
   file: File | null;
   setFile: (file: File | null) => void;
@@ -15,12 +13,13 @@ interface AnalysisFormProps {
     jobTitle: string;
     company: string;
     jobDescription: string;
+    instructionsNote: string;
   };
 
   onChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => void;
-  onSubmit: () => void;
+  onSubmit: (e: React.FormEvent) => void;
   loading: boolean;
   onReset: () => void;
 }
@@ -40,12 +39,12 @@ const AnalysisForm = ({
     <>
       <form
         onSubmit={onSubmit}
-        className="w-4xl bg-dark-800 p-6 rounded-md space-y-6"
+        className="w-4xl border border-dark-border bg-dark-800 p-6 mb-20 rounded-md space-y-6 shadow-md"
       >
-        <div className="w-full h-48 border border-dark-border bg-dark-900 focus:border-brand-purple ">
+        <div className="w-full h-48  bg-dark-900 focus:border-brand-purple ">
           <div
             onClick={() => inputRef.current?.click()}
-            className="flex flex-col items-center justify-center gap-2 w-full h-48 border border-dashed border-dark-border bg-dark-900 rounded-lg cursor-pointer hover:border-brand-purple/40 transition-colors"
+            className="flex flex-col items-center justify-center gap-2 w-full h-48 border border-dashed border-dark-border bg-dark-900 rounded-md cursor-pointer hover:border-brand-purple/40 transition-colors"
           >
             <Upload size={20} className="text-text-muted" />
             <span className="text-sm text-text-muted">
@@ -86,6 +85,18 @@ const AnalysisForm = ({
             className="h-32 border border-dark-border bg-dark-900 text-text-primary placeholder:text-text-muted focus:border-brand-purple resize-none"
             placeholder="Job Description"
             value={formData.jobDescription}
+            onChange={onChange}
+          />
+        </div>
+        <div className="space-y-2">
+          <p className="text-xs font-semibold text-text-secondary uppercase">
+            Instructions
+          </p>
+          <Textarea
+            name="instructionsNote"
+            className="h-32 border border-dark-border bg-dark-900 text-text-primary placeholder:text-text-muted focus:border-brand-purple resize-none"
+            placeholder='e.g. "Add GitHub: https://github.com/Prateek-ind" • "Add live demo for HealthyBuddie: https://healthybuddie.vercel.app" • "Emphasize TanStack Query experience" • "Remove Amazon experience"'
+            value={formData.instructionsNote}
             onChange={onChange}
           />
         </div>

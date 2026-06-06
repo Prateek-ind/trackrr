@@ -14,9 +14,11 @@ import { computeStats, setJobs } from "@/store/jobs.slice";
 import Loading from "@/features/shared/components/Loading";
 import type { AppDispatch } from "@/store/store";
 import Error from "@/features/shared/components/Error";
+import { useAuth } from "@/hooks/useAuth";
 
 const Dashboard = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const {user} = useAuth()
   const {
     data: jobs,
     isLoading,
@@ -48,7 +50,7 @@ const Dashboard = () => {
       <div className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-text-primary">
-            Welcome back, Prateek 👋
+            Welcome back, {user?.username} 👋
           </h1>
           <p className="mt-1 text-sm text-text-muted">
             Here's what's happening with your job search today.

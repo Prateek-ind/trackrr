@@ -37,8 +37,8 @@ const GapAnalysis = ({
   };
 
   return (
-    <>
-      <div className="mb-6 space-y-6 pr-6">
+    <div className="max-w-4xl p-4 bg-dark-800 border border-dark-border rounded-md">
+      <div className="mb-6 space-y-6 ">
         {gaps.map((gap: Gap) => (
           <GapItem
             key={gap.skill}
@@ -75,7 +75,7 @@ const GapAnalysis = ({
           </Button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

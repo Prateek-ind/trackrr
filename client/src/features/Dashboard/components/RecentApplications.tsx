@@ -41,7 +41,8 @@ const RecentApplications = () => {
         <p className="col-span-2">Actions</p>
       </div>
 
-      {jobs.length === 0 ? (
+      <div className="max-h-72 overflow-y-auto">
+        {jobs.length === 0 ? (
         <p className="p-4 text-text-secondary">No applications yet.</p>
       ) : (
         jobs.map((job: Job) => (
@@ -61,6 +62,7 @@ const RecentApplications = () => {
           </div>
         ))
       )}
+      </div>
     </section>
   );
 };

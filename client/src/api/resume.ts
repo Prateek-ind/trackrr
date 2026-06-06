@@ -1,6 +1,6 @@
 const BASE_URL = "http://localhost:3000/api"
 
-export const analyseResume = async (formData)=>{
+export const analyseResume = async (formData: FormData)=>{
     
 
     try {
@@ -50,6 +50,7 @@ export const generateLatex = async(formData : {
   company: string
   jobDescription: string
   omittedSkills: string[]
+  instructionsNote: string
 })=>{
     
     try {
@@ -68,7 +69,9 @@ export const generateLatex = async(formData : {
 
         const data = await response.json()
         return data
-    } catch (error: any) {
-        throw new Error(error.message, {cause: error})
+    } catch (error) {
+       if(error instanceof Error){
+         throw new Error(error.message, {cause: error})
+       }
     }
 }

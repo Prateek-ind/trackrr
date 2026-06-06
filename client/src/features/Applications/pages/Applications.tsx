@@ -53,7 +53,7 @@ const Applications = () => {
       </div>
 
       <div className=" border border-dark-border bg-dark-800 rounded-md shadow-md mb-6">
-        <div className="grid grid-cols-5 gap-4 p-4 border-b text-text-primary border-dark-border text-sm font-semibold">
+        <div className="grid grid-cols-5 gap-4 p-4 border-b text-text-primary bg-dark-700 border-dark-border text-sm font-semibold">
           <p className="col-span-2 text-left">Company & Role</p>
           <p className="text-left">Location</p>
           <p className="text-left">Status</p>
@@ -67,7 +67,7 @@ const Applications = () => {
             <div
               key={job._id}
               onClick={() => navigate(`/dashboard/applications/${job._id}`)}
-              className="grid grid-cols-5 gap-4 px-4 py-6 bg-white dark:bg-dark-700 border-b border-dark-border text-sm items-center cursor-pointer"
+              className="grid grid-cols-5 gap-4 px-4 py-6 bg-white dark:bg-dark-800 border-b border-dark-border text-sm items-center cursor-pointer"
             >
               <div className="col-span-2">
                 <p className="font-semibold text-text-primary">{job.role}</p>
