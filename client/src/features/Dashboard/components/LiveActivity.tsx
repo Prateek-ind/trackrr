@@ -58,7 +58,7 @@ const LiveActivity = () => {
       {isPending ? (
         <Loading />
       ) : (
-        <div className="flex flex-col gap-4 p-4 h-56 overflow-y-auto scrollbar-thumb-current">
+        <div className="flex flex-col gap-4 p-4 h-60 overflow-y-auto scrollbar-thumb-current">
           {activities.length === 0 ? (
             <p>No Activites</p>
           ) : (

@@ -4,14 +4,15 @@ import Error from "@/features/shared/components/Error";
 import Loading from "@/features/shared/components/Loading";
 import Search from "@/features/shared/components/Search";
 import type { RootState } from "@/store/store";
-import { statusStyles } from "@/types/status.types";
+import { priorityStyles, statusStyles } from "@/types/status.types";
 import { MapPin } from "lucide-react";
 import { useState, type ChangeEvent } from "react";
 import { LuCirclePlus } from "react-icons/lu";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import StatusFilter from "../components/StatusFilter";
-import type { JobStatus } from "@/types/job.types";
+import type { JobPriority, JobStatus } from "@/types/job.types";
+import PriorityFilter from "../components/PriorityFilter";
 
 const Applications = () => {
   const [searchInput, setSearchInput] = useState<string>("");
@@ -19,21 +20,26 @@ const Applications = () => {
     (state: RootState) => state.jobs,
   );
   const [statusFilter, setStatusFilter] = useState<JobStatus | "all">("all");
+  const [priorityFilter, setPriorityFilter] = useState<JobPriority | "all">(
+    "all",
+  );
   const navigate = useNavigate();
 
   if (loading) return <Loading />;
   if (error) return <Error message={error} />;
 
-  let filteredJobs = jobs.filter(
-    (job) =>
+  let filteredJobs = jobs.filter((job) => {
+    const matchesSearch =
       job.role.toLowerCase().includes(searchInput.toLowerCase()) ||
-      job.company.toLowerCase().includes(searchInput.toLowerCase()),
-  );
-  if (statusFilter === "all") {
-    filteredJobs = jobs;
-  } else {
-    filteredJobs = jobs.filter((job) => job.status === statusFilter);
-  }
+      job.company.toLowerCase().includes(searchInput.toLowerCase());
+
+    const matchesStatus = statusFilter === "all" || job.status === statusFilter;
+
+    const matchesPriority =
+      priorityFilter === "all" || job.priority === priorityFilter;
+
+    return matchesSearch && matchesStatus && matchesPriority;
+  });
   const onSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
   };
@@ -57,16 +63,24 @@ const Applications = () => {
       <div className="p-4 flex items-center justify-between border bg-dark-800 border-dark-border rounded-md shadow-md mb-6">
         <Search searchInput={searchInput} onSearchInput={onSearchInput} />
         <div className="flex items-center gap-4">
-          <p className="w-full text-xs text-text-secondary">Filter by status: </p>
+          <p className="text-sm text-text-secondary">
+            Filters 
+          </p>
+          <span className="w-full text-xs text-text-secondary">Status:{" "}</span>
           <StatusFilter value={statusFilter} onChange={setStatusFilter} />
+          <p className="w-full text-xs text-text-secondary">
+             Priority:{" "}
+          </p>
+          <PriorityFilter value={priorityFilter} onChange={setPriorityFilter} />
         </div>
       </div>
 
       <div className=" border border-dark-border bg-dark-800 rounded-md shadow-md mb-6">
         <div className="grid grid-cols-5 gap-4 p-4 border-b text-text-primary bg-dark-700 border-dark-border text-sm font-semibold">
-          <p className="col-span-2 text-left">Company & Role</p>
+          <p className="text-left">Company & Role</p>
           <p className="text-left">Location</p>
           <p className="text-left">Status</p>
+          <p className="text-left">Priority</p>
           <p className="text-left">Applied Date</p>
         </div>
 
@@ -79,7 +93,7 @@ const Applications = () => {
               onClick={() => navigate(`/dashboard/applications/${job._id}`)}
               className="grid grid-cols-5 gap-4 px-4 py-6 bg-white dark:bg-dark-800 border-b border-dark-border text-sm items-center cursor-pointer"
             >
-              <div className="col-span-2">
+              <div className="">
                 <p className="font-semibold text-text-primary">{job.role}</p>
                 <p className="font-medium text-text-secondary">{job.company}</p>
               </div>
@@ -88,6 +102,7 @@ const Applications = () => {
                 <p className="text-text-secondary">{job.location}</p>
               </div>
               <StatusPill value={job.status} variants={statusStyles} />
+              <StatusPill value={job.priority} variants={priorityStyles} />
               <p className="text-text-secondary">
                 {new Date(job.appliedAt).toDateString()}
               </p>

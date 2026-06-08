@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema(
     username: {
       type: String,
       trim: true,
+      unique: true
     },
     email: {
       type: String,
@@ -16,6 +17,32 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    name: {
+      type: String,
+      trim: true,
+    },
+    location: {
+      type: String,
+      trim: true,
+    },
+    linkedin: {
+      type: String,
+      trim: true,
+    },
+    phone: {
+      type: String,
+      trim: true,
+    },
+    bio: {
+      type: String,
+      trim: true,
+    },
+    skills: {
+      type: [String],
+    },
+    avatar: {
+      type: String
+    }
   },
   { timestamps: true },
 );

@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const protect = require("../middlewares/protect.middleware");
 const multer = require("multer");
 const {
   analyseResume,

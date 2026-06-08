@@ -8,7 +8,7 @@ const {
   deleteJob,
 } = require("../controllers/job.controller");
 const protect = require("../middlewares/protect.middleware");
-const upload = require("../config/multerStorage");
+const upload = require("../config/pdfStorage");
 const cloudinary = require("../config/cloudinary");
 const https = require("https");
 
@@ -71,12 +71,10 @@ router.get("/resume/proxy", protect, async (req, res) => {
     res.send(Buffer.from(buffer));
   } catch (error) {
     console.error("Proxy error:", error);
-    res
-      .status(500)
-      .json({
-        message: "Proxy failed",
-        error: error instanceof Error ? error.message : String(error),
-      });
+    res.status(500).json({
+      message: "Proxy failed",
+      error: error instanceof Error ? error.message : String(error),
+    });
   }
 });
 
