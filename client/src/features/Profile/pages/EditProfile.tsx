@@ -1,0 +1,69 @@
+import { fetchUser, updateProfile } from "@/api/user";
+import type { User } from "@/types/user.types";
+import React, { useEffect, useState, type ChangeEvent } from "react";
+import EditProfileForm from "../components/EditProfileForm";
+import { useNavigate } from "react-router-dom";
+
+const EditProfile = () => {
+  const [formData, setFormData] = useState<User>({
+    _id: "",
+    username: "",
+    name: "",
+    email: "",
+    location: "",
+    phone: "",
+    bio: "",
+    linkedin: "",
+    skills: [],
+    avatar: "",
+  });
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const getUserDetails = async () => {
+      const data = await fetchUser();
+      setFormData(data);
+    };
+    getUserDetails();
+  }, []);
+
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await updateProfile(formData);
+  };
+
+  const handleCancel = () => {
+    navigate("/dashboard/applications");
+  };
+  return (
+    <section className="w-full max-w-6xl pl-24 mt-12 bg-white dark:bg-dark-900">
+      <div>
+        <div className="mb-6 space-y-4">
+          <h2 className="text-3xl font-extrabold text-text-primary">
+            Edit Profile
+          </h2>
+          <p className="text-sm font-medium text-text-secondary">
+            Update your profile details
+          </p>
+        </div>
+        <form onSubmit={handleSubmit}>
+          <EditProfileForm
+            formData={formData}
+            handleChange={handleChange}
+            setFormData={setFormData}
+            onCancel={handleCancel}
+          />
+        </form>
+      </div>
+    </section>
+  );
+};
+
+export default EditProfile;

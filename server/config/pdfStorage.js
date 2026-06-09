@@ -6,7 +6,7 @@ const cloudinary = require("./cloudinary");
 const storage = new CloudinaryStorage({
   cloudinary,
   params: (req) => ({
-    folder: `trackrr/resumes/${req.user.id}`,
+    folder: `trackrr/users/${req.user._id}/ai_resumes`,
     resource_type: "raw",
     format: "pdf",
     type: "upload",          // ← explicit upload type

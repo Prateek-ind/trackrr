@@ -23,7 +23,7 @@ const Register = () => {
     e.preventDefault();
     try {
       await registerUser(registerData);
-      navigate("/");
+      navigate("/edit-profile");
     } catch (error) {
       if (error instanceof Error)
         throw new Error(error.message, { cause: error });
