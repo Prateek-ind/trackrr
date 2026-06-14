@@ -4,7 +4,7 @@ export const analyseResume = async (formData: FormData)=>{
     
 
     try {
-        const response = await fetch(`${BASE_URL}/resume/analyse`, {
+        const response = await fetch(`${BASE_URL}/api/resume/analyse`, {
             method: "POST",
             body: formData,
             credentials: "include"
