@@ -14,6 +14,7 @@ const protect = require("../middlewares/protect.middleware");
 app.use(express.json());
 
 app.use(cookieParser());
+app.options("*", cors()); // handles all preflight requests
 
 const allowedOrigins = [
   "https://trackrr-red.vercel.app",
