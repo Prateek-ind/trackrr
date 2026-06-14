@@ -33,6 +33,11 @@ app.use(
   }),
 );
 
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path} | Origin: ${req.headers.origin}`);
+  next();
+});
+
 app.get("/", (req, res) => {
   res.json({
     message: "App started",
