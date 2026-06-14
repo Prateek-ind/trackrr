@@ -6,6 +6,7 @@ export interface User {
   location?: string;
   phone?: string;
   bio?: string;
+  currentJobDetails?: string;
   linkedin?: string;
   skills?: string[];
   avatar?: string;

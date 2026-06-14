@@ -19,7 +19,7 @@ interface StatusSelectProps {
 const PriorityFilter = ({ value, onChange }: StatusSelectProps) => {
   return (
     <Select value={value} onValueChange={onChange}>
-      <SelectTrigger className="w-full px-6 py-2">
+      <SelectTrigger className="w-full px-6 py-2 cursor-pointer">
         <SelectValue placeholder="Job Priority" />
       </SelectTrigger>
       <SelectContent>

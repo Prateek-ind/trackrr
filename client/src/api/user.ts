@@ -26,10 +26,10 @@ export const updateProfile = async(formData: User)=>{
     try {
         const response = await fetch(`${BASE_URL}/user/profile`, {
             method: "PATCH",
-            headers:  {
-                "Content-type": "application/json"
-            },
             body: JSON.stringify(formData),
+            headers: {
+                "Content-Type": "application/json"
+            },
             credentials: "include"
         })
 

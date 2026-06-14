@@ -30,6 +30,7 @@ const jobSchema = new mongoose.Schema(
     source: {
       type: String,
       trim: true,
+      required: true
     },
     notes: {
       type: String,

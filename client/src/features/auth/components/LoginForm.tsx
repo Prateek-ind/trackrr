@@ -9,6 +9,7 @@ const LoginForm = () => {
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
+    rememberMe: false,
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -16,9 +17,12 @@ const LoginForm = () => {
   const navigate = useNavigate();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
 
-    setLoginData((prev) => ({ ...prev, [name]: value }));
+    setLoginData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -52,7 +56,13 @@ const LoginForm = () => {
       />
       <div className="flex items-center justify-between mb-4">
         <label className="text-xs text-text-secondary flex items-center gap-1">
-          <input type="checkbox" /> Remember me
+          <input
+            type="checkbox"
+            name="rememberMe"
+            checked={loginData.rememberMe}
+            onChange={handleChange}
+          />{" "}
+          Remember me
         </label>
         <Link className="text-sm font-bold text-brand-purple" to={"/"}>
           Forgot Password?

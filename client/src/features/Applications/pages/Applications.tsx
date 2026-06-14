@@ -45,7 +45,7 @@ const Applications = () => {
   };
 
   return (
-    <section className="w-full flex-1 p-8  bg-white dark:bg-dark-900 min-h-screen">
+    <section className="w-full flex-1 p-8 bg-white dark:bg-dark-900 min-h-screen">
       <div className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-text-primary">Applications</h1>
@@ -54,7 +54,7 @@ const Applications = () => {
           </p>
         </div>
         <Link to={"/dashboard/add-job"}>
-          <Button className="bg-brand-purple text-white dark:text-text-primary">
+          <Button className="bg-brand-purple  hover:bg-brand-purple-hover cursor-pointer text-white dark:text-text-primary">
             <LuCirclePlus /> Add New Job
           </Button>
         </Link>
@@ -63,14 +63,10 @@ const Applications = () => {
       <div className="p-4 flex items-center justify-between border bg-dark-800 border-dark-border rounded-md shadow-md mb-6">
         <Search searchInput={searchInput} onSearchInput={onSearchInput} />
         <div className="flex items-center gap-4">
-          <p className="text-sm text-text-secondary">
-            Filters 
-          </p>
-          <span className="w-full text-xs text-text-secondary">Status:{" "}</span>
+          <p className="text-sm text-text-secondary">Filters</p>
+          <span className="w-full text-xs text-text-secondary">Status: </span>
           <StatusFilter value={statusFilter} onChange={setStatusFilter} />
-          <p className="w-full text-xs text-text-secondary">
-             Priority:{" "}
-          </p>
+          <p className="w-full text-xs text-text-secondary">Priority: </p>
           <PriorityFilter value={priorityFilter} onChange={setPriorityFilter} />
         </div>
       </div>

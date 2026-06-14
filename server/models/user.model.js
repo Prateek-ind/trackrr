@@ -6,34 +6,45 @@ const userSchema = new mongoose.Schema(
     username: {
       type: String,
       trim: true,
-      unique: true
+      unique: true,
+      required: true
     },
     email: {
       type: String,
       trim: true,
       unique: true,
+      required: true
     },
     password: {
       type: String,
       trim: true,
+      required: true
     },
     name: {
       type: String,
       trim: true,
+      required: true
     },
     location: {
       type: String,
       trim: true,
+      required: true
     },
     linkedin: {
       type: String,
       trim: true,
+      required: true
     },
     phone: {
       type: String,
       trim: true,
+      required: true
     },
     bio: {
+      type: String,
+      trim: true,
+    },
+    currentJobDetails: {
       type: String,
       trim: true,
     },

@@ -14,6 +14,8 @@ export const restoreSession = async()=>{
 }
 
 export const loginUser = async(loginData: LoginAuthType)=>{
+
+    
     try {
         console.log(url)
         const res = await fetch(`${url}/api/auth/login`, {
@@ -24,11 +26,14 @@ export const loginUser = async(loginData: LoginAuthType)=>{
             },
             credentials: "include"
         })
+      
 
         if(!res.ok){
             const error = await res.json()
             throw new Error(error.message || "Login failed")
         }
+
+      
 
         const data = await res.json()
 

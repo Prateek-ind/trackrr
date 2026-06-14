@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { type JSX } from "react";
 import { FaClock } from "react-icons/fa";
 import { LuBriefcase, LuCalendar, LuCircleX, LuClock } from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
 
 const iconMap: Record<ExtendedJobStatus, JSX.Element> = {
   applied: <LuBriefcase size={16} />,
@@ -44,6 +45,7 @@ const LiveActivity = () => {
     queryFn: getActivities,
     refetchInterval: 30000, // auto refetch every 30 seconds
   });
+  const navigate = useNavigate()
 
   const activities = data?.activities ?? [];
 
@@ -86,7 +88,9 @@ const LiveActivity = () => {
           )}
         </div>
       )}
-      <button className="w-full py-4 text-center text-sm text-text-muted font-medium mt-6 pt-4 border-t border-dark-border hover:text-text-primary transition-colors">
+      <button
+      onClick={()=>navigate("applications/live-activity")}
+      className="w-full py-4 text-center text-sm text-text-muted font-medium mt-6 pt-4 cursor-pointer border-t border-dark-border hover:text-text-primary transition-colors">
         View Full History
       </button>
     </div>

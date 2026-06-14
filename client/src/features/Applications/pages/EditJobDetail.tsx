@@ -100,7 +100,7 @@ const EditJobDetail = () => {
   };
 
   return (
-    <section className="w-full max-w-6xl pl-24 mt-12 bg-white dark:bg-dark-900">
+    <section className="w-full max-w-6xl p-8 bg-white dark:bg-dark-900">
       <div>
         <BackButton />
         <div className="mb-6 space-y-4">

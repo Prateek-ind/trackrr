@@ -7,7 +7,7 @@ type AuthContextType = {
   isAuthenticated: boolean;
   login: (data: LoginAuthType) => Promise<void>;
   logout: () => Promise<void>;
-  isLoading: boolean
+  isLoading: boolean;
 };
 
 type AuthProviderType = {
@@ -19,6 +19,8 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider = ({ children }: AuthProviderType) => {
   const [user, setUser] = useState<UserType | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+ 
 
   useEffect(() => {
     const checkSession = async () => {

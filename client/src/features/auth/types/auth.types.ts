@@ -1,6 +1,7 @@
 export type LoginAuthType ={
     email: string,
     password: string
+    rememberMe: boolean
 }
 
 export type RegisterAuthType ={

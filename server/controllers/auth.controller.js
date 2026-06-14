@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const generateToken = require("../utils/generateToken");
 
 const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, rememberMe } = req.body;
   try {
     if (!email || !password) {
       return res.status(400).json({
@@ -31,7 +31,7 @@ const login = async (req, res) => {
       httpOnly: true,
       sameSite: "lax",
       secure: false,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      maxAge: rememberMe ? 30 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000,
     });
 
     res.status(200).json({

@@ -133,14 +133,14 @@ const ResumeTailor = () => {
     goToStep("input");
   };
   return (
-    <section className="w-full max-w-7xl pl-24 mt-12 bg-white dark:bg-dark-900">
+    <section className="w-full max-w-7xl p-8 mt-12 bg-white dark:bg-dark-900">
       {error && (
         <div className="mb-4 rounded-lg border border-status-rejected/30 bg-status-rejected/10 px-4 py-3 text-sm text-status-rejected">
           {error}
         </div>
       )}
-      1
-      <div className="w-full h-fit border bg-white border-dark-border rounded-md p-4">
+
+      <div className="w-full h-fit p-4">
         <StepViewer
           onStepClick={handleStepClick}
           currentStep={stepNumber[step]}

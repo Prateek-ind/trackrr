@@ -121,7 +121,7 @@ const JobDetail = () => {
   if (!job) return <p>Job not found.</p>;
 
   return (
-    <section className="w-full flex-1 p-8 pl-24 bg-white dark:bg-dark-900 min-h-screen">
+    <section className="w-full flex-1 p-8  bg-white dark:bg-dark-900 min-h-screen">
       <BackButton />
       {/* Header */}
       <div className="max-w-4xl mb-8 flex items-center justify-between">

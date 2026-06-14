@@ -1,12 +1,33 @@
 const User = require("../models/user.model");
 
 const updateProfile = async (req, res) => {
-  const { username, name, location, phone, linkedin, bio, skills } = req.body;
+  console.log(req.body)
+  const {
+    username,
+    name,
+    location,
+    phone,
+    linkedin,
+    bio,
+    skills,
+    currentJobDetails,
+  } = req.body;
 
   try {
     const user = await User.findOneAndUpdate(
       { _id: req.user._id },
-      { $set: { name, location, phone, linkedin, bio, skills } },
+      {
+        $set: {
+          name,
+          username,
+          location,
+          phone,
+          linkedin,
+          bio,
+          skills,
+          currentJobDetails,
+        },
+      },
       { new: true },
     );
 
@@ -39,12 +60,14 @@ const getProfile = async (req, res) => {
     res.status(200).json({
       message: "User details fetched",
       user: {
+        username: user.username,
         name: user.name,
         email: user.email,
         linkedin: user.linkedin,
         location: user.location,
         phone: user.phone,
         bio: user.bio,
+        currentJobDetails: user.currentJobDetails,
         skills: user.skills,
         avatar: user.avatar,
       },

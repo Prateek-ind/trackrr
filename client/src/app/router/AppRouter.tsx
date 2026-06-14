@@ -16,6 +16,7 @@ import JobDetail from "@/features/Applications/pages/JobDetail";
 import EditJobDetail from "@/features/Applications/pages/EditJobDetail";
 import ResumeTailor from "@/features/Resume Tailor/pages/resumeTailor";
 import EditProfile from "@/features/Profile/pages/EditProfile";
+import LiveActivity from "@/features/Applications/pages/LiveActivity";
 
 export const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ export const router = createBrowserRouter([
         element: <Applications />,
       },
       {
+        path: "applications/live-activity",
+        element: <LiveActivity />,
+      },
+      {
         path: "add-job",
         element: <AddJob />,
       },
@@ -66,7 +71,7 @@ export const router = createBrowserRouter([
         element: <Profile />,
       },
       {
-        path: "edit-profile",
+        path: "profile/edit",
         element: <EditProfile />,
       },
       {

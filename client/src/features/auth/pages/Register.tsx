@@ -23,7 +23,7 @@ const Register = () => {
     e.preventDefault();
     try {
       await registerUser(registerData);
-      navigate("/edit-profile");
+      navigate("/dashboard/edit-profile");
     } catch (error) {
       if (error instanceof Error)
         throw new Error(error.message, { cause: error });
@@ -107,7 +107,7 @@ const Register = () => {
 
             <button
               type="submit"
-              className="w-full rounded-xl bg-brand-purple py-3 text-sm font-semibold text-white transition-all hover:bg-brand-purple-hover mt-2"
+              className="w-full rounded-xl bg-brand-purple py-3 text-sm font-semibold text-white transition-all hover:bg-brand-purple-hover mt-2 cursor-pointer"
             >
               Create Account
             </button>
