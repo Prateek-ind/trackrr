@@ -14,27 +14,13 @@ const protect = require("../middlewares/protect.middleware");
 app.use(express.json());
 
 app.use(cookieParser());
-app.options(
-  "(.*)",
-  cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-  }),
-);
 
 const allowedOrigins = [
   "https://trackrr-red.vercel.app",
   "http://localhost:5173",
 ];
 
-app.options(
-  "/{*any}",
+app.use(
   cors({
     origin: function (origin, callback) {
       if (!origin || allowedOrigins.includes(origin)) {
@@ -44,6 +30,8 @@ app.options(
       }
     },
     credentials: true,
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
   }),
 );
 
