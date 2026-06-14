@@ -64,9 +64,9 @@ const LoginForm = () => {
           />{" "}
           Remember me
         </label>
-        <Link className="text-sm font-bold text-brand-purple" to={"/"}>
+        {/* <Link className="text-sm font-bold text-brand-purple" to={"/"}>
           Forgot Password?
-        </Link>
+        </Link> */}
       </div>
       {error && <p className="text-xs text-status-rejected">{error}</p>}
       <Button
