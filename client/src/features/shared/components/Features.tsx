@@ -47,7 +47,10 @@ const features = [
 
 const Features = () => {
   return (
-    <section className=" min-h-screen mx-auto bg-dark-900 px-6 pb-12">
+    <section
+      id="features"
+      className=" min-h-screen mx-auto bg-dark-900 px-6 pb-12"
+    >
       <div className="pt-12 flex flex-col items-center justify-between gap-4">
         <p className="text-brand-purple text-xs uppercase font-semibold">
           Features
