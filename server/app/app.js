@@ -17,7 +17,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "https://trackrr-i4ay.onrender.com",
+    origin: "https://trackrr-red.vercel.app",
     credentials: true,
   }),
 );
