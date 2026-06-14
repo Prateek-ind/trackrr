@@ -3,7 +3,7 @@ import { FaPaperclip } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { Button } from "@/components/ui/button";
 import { uploadResume } from "@/api/job";
-import PDFViewer from "./PDFViewer";
+import PdfViewer from "./PdfViewer";
 
 interface Attachment {
   name: string;
@@ -52,7 +52,7 @@ const AttachmentUpload = ({
   return (
     <>
       {preview && (
-        <PDFViewer
+        <PdfViewer
           key={preview.url}
           url={preview.url}
           name={preview.name}

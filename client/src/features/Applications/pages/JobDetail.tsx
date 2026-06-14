@@ -15,7 +15,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import SectionHeader from "@/features/Add Job/components/SectionHeader";
 import BackButton from "@/features/shared/components/BackButton";
 import { statusStyles } from "@/types/status.types";
-import PDFViewer from "@/features/Add Job/components/PDFViewer";
+import PdfViewer from "@/features/Add Job/components/PdfViewer";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Loading from "@/features/shared/components/Loading";
 import Error from "@/features/shared/components/Error";
@@ -259,7 +259,7 @@ const JobDetail = () => {
             ))
           )}
           {preview && (
-            <PDFViewer
+            <PdfViewer
               key={preview.url}
               url={preview.url}
               name={preview.name}

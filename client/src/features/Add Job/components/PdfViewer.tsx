@@ -1,6 +1,6 @@
 import { IoClose } from "react-icons/io5";
 
-const PDFViewer = ({
+const PdfViewer = ({
   url,
   name,
   publicId,
@@ -48,4 +48,4 @@ const PDFViewer = ({
   );
 };
 
-export default PDFViewer
+export default PdfViewer
