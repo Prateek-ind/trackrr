@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import LoginForm from "../components/LoginForm";
 import Logo from "@/features/shared/components/Logo";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import AuthNavbar from "../components/AuthNavbar";
 
 const Login = () => {

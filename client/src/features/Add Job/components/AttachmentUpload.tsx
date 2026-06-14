@@ -16,8 +16,6 @@ interface AttachmentUploadProps {
   setAttachments: (fn: (prev: Attachment[]) => Attachment[]) => void;
 }
 
-
-
 const AttachmentUpload = ({
   attachments,
   setAttachments,

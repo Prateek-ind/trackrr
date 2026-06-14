@@ -3,7 +3,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import type {
   FormSectionProps,
-  JobFormData,
+  JobPriority,
   JobStatus,
 } from "@/types/job.types";
 import SectionHeader from "@/features/Add Job/components/SectionHeader";
@@ -92,7 +92,11 @@ const EditFormSection = ({
             <TogglePriority
               value={formData.priority}
               onChange={(val) =>
-                val && setFormData((prev) => ({ ...prev, priority: val }))
+                val &&
+                setFormData((prev) => ({
+                  ...prev,
+                  priority: val as JobPriority,
+                }))
               }
             />
           </div>

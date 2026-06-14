@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3000/api"
+const BASE_URL = import.meta.env.VITE_BACKEND_URL 
 
 export const analyseResume = async (formData: FormData)=>{
     
@@ -24,7 +24,7 @@ export const analyseResume = async (formData: FormData)=>{
 export const getRoadmap = async(formData:   { skill: string; jobTitle: string; company: string }) =>{
     
     try {
-        const response = await fetch(`${BASE_URL}/resume/roadmap`, {
+        const response = await fetch(`${BASE_URL}/api/resume/roadmap`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -54,7 +54,7 @@ export const generateLatex = async(formData : {
 })=>{
     
     try {
-        const response = await fetch(`${BASE_URL}/resume/generate`, {
+        const response = await fetch(`${BASE_URL}/api/resume/generate`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

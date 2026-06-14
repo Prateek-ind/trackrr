@@ -7,13 +7,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import type { JobPriority, JobStatus } from "@/types/job.types";
-
-type filterValue = JobPriority | "all";
+import type { JobPriority } from "@/types/job.types";
 
 interface StatusSelectProps {
-  value: filterValue;
-  onChange: (val: JobStatus) => void;
+  value: JobPriority | "all";
+  onChange: (val: JobPriority | "all") => void;
 }
 
 const PriorityFilter = ({ value, onChange }: StatusSelectProps) => {

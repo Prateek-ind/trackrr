@@ -23,7 +23,7 @@ interface Props {
   setFormData: React.Dispatch<React.SetStateAction<User>>;
   onCancel: () => void;
   handleAddSkill: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+
   handleRemoveSkill: (index: number) => void;
   skillInput: string;
   setSkillInput: (val: string) => void;
@@ -36,7 +36,7 @@ const EditProfileForm = ({
   onCancel,
   handleAddSkill,
   handleRemoveSkill,
-  handleFileChange,
+
   skillInput,
   setSkillInput,
 }: Props) => {

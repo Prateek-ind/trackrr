@@ -1,7 +1,6 @@
 import { LuArrowLeft, LuLoaderCircle } from "react-icons/lu";
 import GapItem from "./GapItem";
 import { Button } from "@/components/ui/button";
-import { FaBackward } from "react-icons/fa";
 
 interface GapAnalysisProps {
   gaps: Gap[];

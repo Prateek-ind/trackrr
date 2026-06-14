@@ -14,7 +14,7 @@ import Settings from "../../features/Settings/pages/Settings";
 import AddJob from "@/features/Add Job/Pages/AddJob";
 import JobDetail from "@/features/Applications/pages/JobDetail";
 import EditJobDetail from "@/features/Applications/pages/EditJobDetail";
-import ResumeTailor from "@/features/Resume Tailor/pages/resumeTailor";
+import ResumeTailor from "@/features/Resume Tailor/pages/ResumeTailor";
 import EditProfile from "@/features/Profile/pages/EditProfile";
 import LiveActivity from "@/features/Applications/pages/LiveActivity";
 

@@ -31,8 +31,8 @@ const EditProfile = () => {
 
   useEffect(() => {
     if (data?.user) {
-      console.log(data)
-      setFormData((prev: any)=>({...prev, ...data.user}));
+      console.log(data);
+      setFormData((prev: any) => ({ ...prev, ...data.user }));
     }
   }, [data]);
 
@@ -59,18 +59,6 @@ const EditProfile = () => {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0];
-
-    if (selectedFile) {
-      setFile(selectedFile);
-
-      setFormData((prev) => ({
-        ...prev,
-        avatar: URL.createObjectURL(selectedFile),
-      }));
-    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -101,7 +89,6 @@ const EditProfile = () => {
           <EditProfileForm
             formData={formData}
             handleChange={handleChange}
-            handleFileChange={handleFileChange}
             setFormData={setFormData}
             onCancel={handleCancel}
             skillInput={skillInput}

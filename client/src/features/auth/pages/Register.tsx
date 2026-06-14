@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../../../api/auth";
 import { Input } from "@/components/ui/input";
 import Logo from "@/features/shared/components/Logo";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import AuthNavbar from "../components/AuthNavbar";
 
 const Register = () => {

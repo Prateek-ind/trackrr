@@ -1,12 +1,11 @@
 import { useAuth } from "../../../hooks/useAuth";
 import { useState, type ChangeEvent } from "react";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { Bell } from "lucide-react";
+
 import Search from "@/features/shared/components/Search";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store/store";
-import type { Job } from "@/types/job.types";
 import useDebounce from "@/hooks/useDebounce";
 
 const DashboardTopbar = () => {

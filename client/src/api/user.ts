@@ -1,10 +1,10 @@
 import type { User } from "@/types/user.types"
 
-const BASE_URL = "http://localhost:3000/api"
+const BASE_URL = import.meta.env.VITE_BACKEND_URL 
 
 export const fetchUser = async ()=>{
     try{
-        const response = await fetch(`${BASE_URL}/user/profile`, {
+        const response = await fetch(`${BASE_URL}/api/user/profile`, {
             method: "GET",
             credentials: "include"
         })
@@ -24,7 +24,7 @@ export const fetchUser = async ()=>{
 
 export const updateProfile = async(formData: User)=>{
     try {
-        const response = await fetch(`${BASE_URL}/user/profile`, {
+        const response = await fetch(`${BASE_URL}/api/user/profile`, {
             method: "PATCH",
             body: JSON.stringify(formData),
             headers: {

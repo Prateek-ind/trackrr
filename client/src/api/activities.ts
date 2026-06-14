@@ -1,8 +1,8 @@
-const BASE_URL = "http://localhost:3000/api"
+const BASE_URL = import.meta.env.VITE_BACKEND_URL 
 
 export const getActivities = async()=>{
     try {
-        const response = await fetch(`${BASE_URL}/activities`, {
+        const response = await fetch(`${BASE_URL}/api/activities`, {
             method: "GET",
             credentials: "include"
         })

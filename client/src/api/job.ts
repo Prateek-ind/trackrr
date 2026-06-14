@@ -1,11 +1,11 @@
 
 import type {  JobFormData } from "@/types/job.types"
 
-const BASE_URL = "http://localhost:3000/api"
+const BASE_URL = import.meta.env.VITE_BACKEND_URL 
 
 export const createJob = async (formData: JobFormData) => {
 
-  const response = await fetch(`${BASE_URL}/jobs`, {
+  const response = await fetch(`${BASE_URL}/api/jobs`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -25,7 +25,7 @@ export const createJob = async (formData: JobFormData) => {
 
 export const getJobs = async ()=>{
   try {
-    const response = await fetch(`${BASE_URL}/jobs`, {
+    const response = await fetch(`${BASE_URL}/api/jobs`, {
     method: "GET",
     credentials: "include"
   })
@@ -45,7 +45,7 @@ export const getJobs = async ()=>{
 
 export const getJobById = async (id: string)=>{
   try {
-    const response = await fetch(`${BASE_URL}/jobs/${id}`, {
+    const response = await fetch(`${BASE_URL}/api/jobs/${id}`, {
     method: "GET",
     credentials: "include"
   })
@@ -65,7 +65,7 @@ export const getJobById = async (id: string)=>{
 
 export const updateJob = async (id: string, formData: JobFormData) => {
 
-  const response = await fetch(`${BASE_URL}/jobs/${id}/edit`, {
+  const response = await fetch(`${BASE_URL}/api/jobs/${id}/edit`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -85,7 +85,7 @@ export const updateJob = async (id: string, formData: JobFormData) => {
 
 export const deleteJobById = async (id: string)=>{
   try {
-    const response = await fetch(`${BASE_URL}/jobs/${id}`, {
+    const response = await fetch(`${BASE_URL}/api/jobs/${id}`, {
     method: "DELETE",
     credentials: "include"
   })
@@ -111,7 +111,7 @@ export const uploadResume = async (
   formData.append("resume", file);
 
   const response = await fetch(
-    `${BASE_URL}/jobs/resume`,
+    `${BASE_URL}/api/jobs/resume`,
     {
       method: "POST",
       credentials: "include",

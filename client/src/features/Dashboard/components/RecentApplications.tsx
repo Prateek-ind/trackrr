@@ -57,10 +57,10 @@ const RecentApplications = () => {
       return { previous };
     },
 
-    onError: ({ error, __, context }) => {
+    onError: (error, _, context) => {
       if (context?.previous) {
         queryClient.setQueryData(["jobs"], context.previous);
-        dispatch(setJobs(context?.previous ?? []));
+        dispatch(setJobs((context?.previous as Job[]) ?? []));
         dispatch(computeStats());
       }
       if (error instanceof Error)

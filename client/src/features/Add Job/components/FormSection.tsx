@@ -6,7 +6,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import FormField from "./FormField";
 import SectionHeader from "./SectionHeader";
-import type { FormSectionProps, JobStatus } from "@/types/job.types";
+import type {
+  FormSectionProps,
+  JobPriority,
+  JobStatus,
+} from "@/types/job.types";
 import AttachmentUpload from "./AttachmentUpload";
 
 const FormSection = ({
@@ -88,7 +92,11 @@ const FormSection = ({
             <TogglePriority
               value={formData.priority}
               onChange={(val) =>
-                val && setFormData((prev) => ({ ...prev, priority: val }))
+                val &&
+                setFormData((prev) => ({
+                  ...prev,
+                  priority: val as JobPriority,
+                }))
               }
             />
           </div>
