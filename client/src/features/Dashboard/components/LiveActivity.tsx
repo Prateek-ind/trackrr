@@ -45,7 +45,7 @@ const LiveActivity = () => {
     queryFn: getActivities,
     refetchInterval: 30000, // auto refetch every 30 seconds
   });
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const activities = data?.activities ?? [];
 
@@ -65,7 +65,7 @@ const LiveActivity = () => {
             <p>No Activites</p>
           ) : (
             activities.map((activity: Activity) => (
-              <div key={activity.jobId} className="flex items-start gap-3">
+              <div key={activity.createdAt} className="flex items-start gap-3">
                 <div
                   className={`w-8 h-8 rounded-md flex items-center justify-center shrink-0 ${colorMap[activity.type]}`}
                 >
@@ -89,8 +89,9 @@ const LiveActivity = () => {
         </div>
       )}
       <button
-      onClick={()=>navigate("applications/live-activity")}
-      className="w-full py-4 text-center text-sm text-text-muted font-medium mt-6 pt-4 cursor-pointer border-t border-dark-border hover:text-text-primary transition-colors">
+        onClick={() => navigate("applications/live-activity")}
+        className="w-full py-4 text-center text-sm text-text-muted font-medium mt-6 pt-4 cursor-pointer border-t border-dark-border hover:text-text-primary transition-colors"
+      >
         View Full History
       </button>
     </div>

@@ -64,7 +64,10 @@ const LiveActivity = () => {
           <p>No Activities</p>
         ) : (
           activities.map((activity: Activity) => (
-            <div key={activity.jobId} className="flex items-start gap-3 mb-6">
+            <div
+              key={activity.createdAt}
+              className="flex items-start gap-3 mb-6"
+            >
               <div
                 className={`w-8 h-8 rounded-md flex items-center justify-center shrink-0 ${
                   colorMap[activity.type]
