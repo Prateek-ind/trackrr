@@ -1,9 +1,9 @@
 import { useState, type ChangeEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { registerUser } from "../../../api/auth";
 import { Input } from "@/components/ui/input";
 import Logo from "@/features/shared/components/Logo";
 import AuthNavbar from "../components/AuthNavbar";
+import { useAuth } from "@/hooks/useAuth";
 
 const Register = () => {
   const [registerData, setRegisterData] = useState({
@@ -11,6 +11,8 @@ const Register = () => {
     email: "",
     password: "",
   });
+  const { register, isLoading } = useAuth();
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -21,14 +23,16 @@ const Register = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await registerUser(registerData);
-      navigate("/dashboard/edit-profile");
+      await register(registerData);
+      navigate("/dashboard/profile/edit");
     } catch (error) {
-      if (error instanceof Error)
-        throw new Error(error.message, { cause: error });
-      throw new Error("Something went wrong while registering!", {
-        cause: error,
-      });
+      if (error instanceof Error) {
+        setError(error.message);
+        throw new Error(
+          error.message || "Something went wrong while registering!",
+          { cause: error },
+        );
+      }
     }
   };
 
@@ -62,6 +66,7 @@ const Register = () => {
 
         {/* Form card */}
         <div className="rounded-2xl border border-dark-border bg-dark-800 p-8 shadow-2xl">
+          {error && <p className="text-sm text-red-500 text-center">{error}</p>}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <label className="text-sm font-medium text-text-secondary">
@@ -106,9 +111,10 @@ const Register = () => {
 
             <button
               type="submit"
+              disabled={isLoading}
               className="w-full rounded-xl bg-brand-purple py-3 text-sm font-semibold text-white transition-all hover:bg-brand-purple-hover mt-2 cursor-pointer"
             >
-              Create Account
+              {isLoading ? "Creating..." : "Create Account"}
             </button>
           </form>
 

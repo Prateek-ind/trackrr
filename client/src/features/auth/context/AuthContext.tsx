@@ -1,11 +1,21 @@
 import { createContext, useEffect, useState, type ReactNode } from "react";
-import type { LoginAuthType, UserType } from "../types/auth.types";
-import { loginUser, logoutUser, restoreSession } from "../../../api/auth";
+import type {
+  LoginAuthType,
+  RegisterAuthType,
+  UserType,
+} from "../types/auth.types";
+import {
+  loginUser,
+  logoutUser,
+  registerUser,
+  restoreSession,
+} from "../../../api/auth";
 
 type AuthContextType = {
   user: UserType | null;
   isAuthenticated: boolean;
   login: (data: LoginAuthType) => Promise<void>;
+  register: (data: RegisterAuthType) => Promise<void>;
   logout: () => Promise<void>;
   isLoading: boolean;
 };
@@ -19,8 +29,6 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider = ({ children }: AuthProviderType) => {
   const [user, setUser] = useState<UserType | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-
- 
 
   useEffect(() => {
     const checkSession = async () => {
@@ -41,6 +49,10 @@ export const AuthProvider = ({ children }: AuthProviderType) => {
     const res = await loginUser(data);
     setUser(res.user);
   };
+  const register = async (data: RegisterAuthType) => {
+    const res = await registerUser(data);
+    setUser(res.user);
+  };
 
   const logout = async () => {
     await logoutUser();
@@ -52,6 +64,7 @@ export const AuthProvider = ({ children }: AuthProviderType) => {
         user,
         isAuthenticated: !!user,
         login,
+        register,
         logout,
         isLoading,
       }}
